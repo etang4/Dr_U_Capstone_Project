@@ -4,4 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Title_Menu.unity
+  - enabled: 1
+    path: Assets/Ask_Mode.unity
+  - enabled: 1
+    path: Assets/Explore_Mode.unity
+  - enabled: 1
+    path: Assets/Game_Mode.unity
