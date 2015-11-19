@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class QuestionPanelExpandedFilter : MonoBehaviour
+public class QuestionPanel : MonoBehaviour
 {
 
     public GameObject originalButton;
@@ -10,7 +10,6 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     public int listSize;
     public GameObject[] items;
     public GameObject containerRect;
-    public GameObject OmniSearchBarText;
 
     // Use this for initialization
     void Start()
@@ -27,18 +26,6 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             itemsList[i] = newButton;
             newButton.transform.GetChild(0).GetComponent<Text>().text = "Frequently Asked Question #" + i + "?";
             newButton.transform.parent = this.transform;
-        }
-    }
-
-    public void filterList()
-    {
-        string result = OmniSearchBarText.GetComponent<Text>().text;
-        for (int i = 0; i < listSize; i++)
-        {
-            if(!itemsList[i].transform.GetChild(0).GetComponent<Text>().text.StartsWith(result))
-            {
-                itemsList[i].SetActive(false);
-            }
         }
     }
 }
