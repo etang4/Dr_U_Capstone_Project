@@ -25,10 +25,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         SearchBarText.onEndEdit.AddListener(filterList);
 
-        RectTransform searchPanelRect = SearchBarText.GetComponent<RectTransform>();
-        RectTransform backButtonRect = BackButton.GetComponent<RectTransform>();
-
-        searchPanelRect.offsetMin = new Vector2(backButtonRect.rect.width + 25, 2);
+       
     }
 
     public void filterList(string input)
