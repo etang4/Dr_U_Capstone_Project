@@ -10,22 +10,24 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     public GameObject originalButton;
     public GameObject[] itemsList;
     public int listSize;
-    public GameObject[] items;
     public GameObject containerRect;
     public InputField SearchBarText;
-    public Button BackButton;
+
+    private GridLayoutGroup faqGrid;
+    private RectTransform faqRect;
 
     // Use this for initialization
     void Start()
     {
-        containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width,
+        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+        faqRect = containerRect.GetComponent<RectTransform>();
+        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width,
                                                                              containerRect.GetComponent<RectTransform>().rect.height / listSize);
-        containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x,
+        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x,
                                                                             containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
-        containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         SearchBarText.onEndEdit.AddListener(filterList);
-
-       
+        filterList(SearchBarText.text);         //Initial run
     }
 
     public void filterList(string input)
@@ -34,7 +36,9 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         Dictionary<string, string> searchResults = fakeSearch(result, 1);          //Update this to use real data
 
         int x = 0;
-        Array.Clear(itemsList, 0, itemsList.Length);
+        foreach(GameObject item in itemsList){
+            Destroy(item);
+        }
 
         foreach (KeyValuePair<string, string> answer in searchResults)
         {
