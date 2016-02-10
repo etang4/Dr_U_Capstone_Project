@@ -6,24 +6,43 @@ public class ImagePanel : MonoBehaviour
 {
     public GameObject[] itemsList;
     public int listSize;
-    public GameObject[] SetImages;
+    public Sprite[] SetImages;
     public GameObject containerRect;
+
+    public GameObject MoreInfoImagePanel;
 
     // Use this for initialization
     void Start()
-    { 
+    {
+        //MoreInfoImagePanel = GameObject.Find("MoreInfoImagePanel Need to dynamically find this gameobject eventually.
+        Debug.Log(MoreInfoImagePanel);
+
+        //Create display list
         containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.height, containerRect.GetComponent<RectTransform>().rect.height);
         containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<GridLayoutGroup>().cellSize.x * (listSize - 1), containerRect.GetComponent<RectTransform>().sizeDelta.y);
-
         containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
-        //containerRect.GetComponent<RectTransform>().offsetMin = new Vector2(containerRect.GetComponent<RectTransform>().offsetMin.x, bottom);
+
         for (int i = 0; i < listSize; i++)
         {
-            // GameObject newButton = Instantiate(itemsList[i]) as GameObject;
-            GameObject newImage = Instantiate(SetImages[i]);
+            //Instantiates buttons from image array.
+            GameObject newImage = new GameObject("Image " + i);
+            Image imageUI = newImage.AddComponent<Image>();
+            imageUI.sprite = SetImages[i];
+            Button imageButton = newImage.AddComponent<Button>();
+            imageButton.targetGraphic = imageUI;
+            imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI); });
+
+            //Sets newly created button to display list.
             itemsList[i] = newImage;
             newImage.transform.parent = this.transform;
         }
+    }
+
+    //Event called onClick.
+    public void ActivateMoreInfoImagePanel(Image currentImg) //Needs parameter at some point to determine what image/data to show
+    {
+        MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
+        MoreInfoImagePanel.SetActive(true);
     }
 }
 
