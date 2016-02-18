@@ -48,14 +48,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .779411793, g: .429822683, b: .429822683, a: 1}
+  m_Color: {r: .207843155, g: .647058845, b: .501960814, a: .497000009}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -103,7 +103,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11471864}
-        m_MethodName: switchToAnswer
+        m_MethodName: toggleFAQ
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -160,6 +160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: 
   answer: 
+  questionColor: {r: .729411781, g: .427451015, b: .231372565, a: .70588237}
+  answerColor: {r: .207843155, g: .647058845, b: .501960814, a: .70588237}
 --- !u!222 &22262188
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -220,7 +222,7 @@ Prefab:
       objectReference: {fileID: 11471864}
     - target: {fileID: 0}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: switchToAnswer
+      value: toggleFAQ
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_FontData.m_BestFit
@@ -241,6 +243,66 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Name
       value: FAQText
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.r
+      value: .207843155
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.g
+      value: .647058845
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.b
+      value: .501960814
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.a
+      value: .497000009
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: questionColor.r
+      value: .729411781
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: questionColor.g
+      value: .427451015
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: questionColor.b
+      value: .231372565
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: answerColor.r
+      value: .207843155
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: answerColor.g
+      value: .647058845
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: answerColor.b
+      value: .501960814
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: questionColor.a
+      value: .70588237
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: answerColor.a
+      value: .70588237
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

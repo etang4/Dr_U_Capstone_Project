@@ -6,20 +6,24 @@ using UnityEngine.UI;
 public class FAQButton : MonoBehaviour {
     public string question = "";
     public string answer = "";
+    public Color questionColor;
+    public Color answerColor;
+
+
 	// Use this for initialization
 	void Start () {
-	
+        this.gameObject.GetComponent<Image>().color = questionColor;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+      
 	}
 
     public void toggleFAQ()
     {
-        GameObject button = transform.gameObject;
-        if (button.GetComponent<Image>().color == Color.blue)
+        if (this.gameObject.GetComponent<Image>().color == answerColor)
         {
             switchToQuestion();
         }
@@ -31,17 +35,16 @@ public class FAQButton : MonoBehaviour {
 
     public void switchToAnswer()
     {
-        GameObject button = transform.gameObject;
-        button.GetComponent<Image>().color = Color.blue;
+       
+        this.gameObject.GetComponent<Image>().color = answerColor;
 
-        button.transform.GetChild(0).GetComponent<Text>().text = question + "\n\n" + answer; 
+        this.gameObject.transform.GetChild(0).GetComponent<Text>().text = question + "\n\n" + answer; 
     }
 
     public void switchToQuestion()
     {
-        GameObject button = transform.gameObject;
-        button.GetComponent<Image>().color = Color.red;
+        this.gameObject.GetComponent<Image>().color = questionColor;
 
-        button.transform.GetChild(0).GetComponent<Text>().text = question;
+        this.gameObject.transform.GetChild(0).GetComponent<Text>().text = question;
     }
 }
