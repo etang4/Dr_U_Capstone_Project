@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class QuestionPanelExpandedFilter : MonoBehaviour
 {
-
     public GameObject originalButton;
     public GameObject[] itemsList;
     public int listSize;
@@ -15,6 +14,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 
     private GridLayoutGroup faqGrid;
     private RectTransform faqRect;
+	public ResourceCounter resourceCounter;
 
     // Use this for initialization
     void Start()
@@ -26,9 +26,11 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x,
                                                                             containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+
         SearchBarText.onEndEdit.AddListener(filterList);
         filterList(SearchBarText.text);         //Initial run
     }
+
 
     public void filterList(string input)
     {
@@ -52,6 +54,13 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             newButton.transform.parent = this.transform;
             x++;
         }
+
+		if (x == 0) {
+			ResourceCounter.addPoints(10);
+		} else if (x > 0)  {
+			ResourceCounter.addPoints(5);
+		}
+
     }
 
 
@@ -70,5 +79,6 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         }
         return results;
     }
+
 }
 
