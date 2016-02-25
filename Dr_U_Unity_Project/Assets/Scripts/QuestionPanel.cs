@@ -17,11 +17,12 @@ public class QuestionPanel : MonoBehaviour
     void Start()
     { 
         containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, 
-                                                                             containerRect.GetComponent<RectTransform>().rect.height / listSize);
+                                                                             containerRect.GetComponent<RectTransform>().rect.height / 7);
         containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, 
                                                                             containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
 
         containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        
         //containerRect.GetComponent<RectTransform>().offsetMin = new Vector2(containerRect.GetComponent<RectTransform>().offsetMin.x, bottom);
 
         Dictionary<string, string> FAQs = GetFAQs();

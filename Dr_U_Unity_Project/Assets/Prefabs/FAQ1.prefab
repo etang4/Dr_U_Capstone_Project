@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: .960784316, g: .960784316, b: .960784316, a: 1}
-    m_PressedColor: {r: .784313738, g: .784313738, b: .784313738, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 0}
     m_DisabledColor: {r: .784313738, g: .784313738, b: .784313738, a: .501960814}
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
@@ -160,8 +160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: 
   answer: 
-  questionColor: {r: .729411781, g: .427451015, b: .231372565, a: .70588237}
-  answerColor: {r: .207843155, g: .647058845, b: .501960814, a: .70588237}
+  questionColor: {r: .23137255, g: .502718091, b: .729411781, a: 1}
+  answerColor: {r: .207843155, g: .647058845, b: .501960814, a: 1}
 --- !u!222 &22262188
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -274,15 +274,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: questionColor.r
-      value: .729411781
+      value: .23137255
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: questionColor.g
-      value: .427451015
+      value: .502718091
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: questionColor.b
-      value: .231372565
+      value: .729411781
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: answerColor.r
@@ -298,11 +298,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: questionColor.a
-      value: .70588237
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: answerColor.a
-      value: .70588237
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_PressedColor.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
