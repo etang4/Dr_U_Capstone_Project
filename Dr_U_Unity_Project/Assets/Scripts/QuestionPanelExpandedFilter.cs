@@ -21,10 +21,9 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     {
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
-        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width,
-                                                                             containerRect.GetComponent<RectTransform>().rect.height / listSize);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x,
-                                                                            containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
+        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
+        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 1));
+
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
 
         SearchBarText.onEndEdit.AddListener(filterList);

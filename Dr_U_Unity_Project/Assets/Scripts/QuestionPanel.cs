@@ -13,15 +13,18 @@ public class QuestionPanel : MonoBehaviour
     public GameObject[] items;
     public GameObject containerRect;
 
+    private GridLayoutGroup faqGrid;
+    private RectTransform faqRect;
+
     // Use this for initialization
     void Start()
-    { 
-        containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, 
-                                                                             containerRect.GetComponent<RectTransform>().rect.height / 7);
-        containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, 
-                                                                            containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
+    {
+        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+        faqRect = containerRect.GetComponent<RectTransform>();
+        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
+        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 1));
 
-        containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         
         //containerRect.GetComponent<RectTransform>().offsetMin = new Vector2(containerRect.GetComponent<RectTransform>().offsetMin.x, bottom);
 
