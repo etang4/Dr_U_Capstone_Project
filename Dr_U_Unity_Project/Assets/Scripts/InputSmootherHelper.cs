@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Timers;
 
 public class InputSmootherHelper : MonoBehaviour {
-	private static Set<InputSmoother> smoothers = new HashSet<InputSmoother>();
-	private static Set<Beacon> beacons = new HashSet<Beacon>();
+	private static HashSet<InputSmoother> smoothers = new HashSet<InputSmoother>();
+	private static HashSet<Beacon> beacons = new HashSet<Beacon>();
 	private static Timer update_timer = new Timer(100);
 	
 	// when the program starts or ends
 	void Start()
 	{
+		// TODO TEMP
+		Debug.Log("starting input smoothing...");
+		
 		iBeaconReceiver.BeaconRangeChangedEvent += TrackNewBeaconConnections;
 		iBeaconReceiver.BluetoothStateChangedEvent += TrackBluetoothStateChanges;
 		iBeaconReceiver.CheckBluetoothLEStatus();
 		
 		update_timer.Elapsed += UpdateBeaconRanges;
 		update_timer.AutoReset = true;
-		update_timer.Enabled = true;
 		
 		Debug.Log("listening for beacons...");
 	}
@@ -29,9 +31,12 @@ public class InputSmootherHelper : MonoBehaviour {
 	}
 	
 	// Bluetooth event handling
-	private static void UpdateBeaconRanges(Object source, ElapsedEventArgs e)
+	private static void UpdateBeaconRanges(object source, ElapsedEventArgs e)
 	{
-		Set<InputSmoother> disconnected_smoothers = new HashSet<InputSmoother>();
+		// TODO TEMP
+		Debug.Log("updating all beacon smoothers...");
+		
+		HashSet<InputSmoother> disconnected_smoothers = new HashSet<InputSmoother>();
 		foreach (InputSmoother smoother in smoothers)
 		{
 			smoother.Update();
@@ -51,10 +56,15 @@ public class InputSmootherHelper : MonoBehaviour {
 	
 	private static void TrackNewBeaconConnections(List<Beacon> updated_beacons)
 	{
+		Debug.Log("analyzing beacon update event...");
+		
 		foreach (Beacon updated_beacon in updated_beacons)
 		{
 			if (!beacons.Contains(updated_beacon))
 			{
+				// TODO TEMP
+				Debug.Log("found new beacon: " + updated_beacon.UUID);
+				
 				beacons.Add(updated_beacon);
 				smoothers.Add(new InputSmoother(updated_beacon));
 			}

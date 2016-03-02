@@ -14,6 +14,9 @@ public class QuestionPanel : MonoBehaviour
     // Use this for initialization
     void Start()
     { 
+		// TODO TEMP
+		Debug.Log("starting QuestionPanel...");
+	
         containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width , containerRect.GetComponent<RectTransform>().rect.height / listSize);
         containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class InputSmoother {
 	private const int DISCONNECTION_THRESHOLD = 5;
@@ -19,12 +20,13 @@ public class InputSmoother {
 	
 	public void Update()
 	{
+		uint beacon_strength = (uint) beacon.strength;
 		// TODO TEMP
-		Debug.Log("[" + i + "] direct strength = " + beacon.strength.ToString());
+		Debug.Log("[" + beacon.ToString() + "] direct strength = " + beacon_strength.ToString());
 		
 		// add the new signal strength value to the window
-		window.Enqueue(beacon.strength);
-		current_sum += beacon.strength;
+		window.Enqueue(beacon_strength);
+		current_sum += beacon_strength;
 		// remove the old signal strength value from the window if needed
 		if (window.Count > window_size)
 		{
@@ -37,7 +39,7 @@ public class InputSmoother {
 		}
 		
 		// TODO TEMP
-		Debug.Log("[" + i + "] smoothed strength = " + GetSignalStrength().ToString() + " (size=" + window.Count + ")");
+		Debug.Log("[" + beacon.ToString() + "] smoothed strength = " + GetSignalStrength().ToString() + " (size=" + window.Count + ")");
 	}
 
 	public InputSmoother(Beacon beacon)
@@ -57,6 +59,6 @@ public class InputSmoother {
 	
 	public uint GetSignalStrength()
 	{
-		return current_sum / window.Count;
+		return (uint) (current_sum / window.Count);
 	}
 }
