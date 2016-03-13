@@ -1,5 +1,5 @@
+<<<<<<< HEAD
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -19,6 +19,9 @@ public class QuestionPanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		// TODO TEMP
+		Debug.Log("starting QuestionPanel...");
+		
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
         faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
@@ -54,4 +57,3 @@ public class QuestionPanel : MonoBehaviour
         return dict;
     }
 }
-
