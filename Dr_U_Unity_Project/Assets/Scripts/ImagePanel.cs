@@ -4,23 +4,31 @@ using UnityEngine.UI;
 
 public class ImagePanel : MonoBehaviour
 {
-    public GameObject[] itemsList;
-    public int listSize;
-    public Sprite[] SetImages;
+    public Sprite[] SetImages;     // This will be replaced with a database call
     public GameObject containerRect;
 
     public GameObject MoreInfoImagePanel;
 
+    private int listSize;
+    private GridLayoutGroup imageGrid;
+    private RectTransform imageRect;
+
     // Use this for initialization
     void Start()
     {
+        listSize = SetImages.Length;
+
+
         //MoreInfoImagePanel = GameObject.Find("MoreInfoImagePanel Need to dynamically find this gameobject eventually.
         Debug.Log(MoreInfoImagePanel);
 
         //Create display list
-        containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.height, containerRect.GetComponent<RectTransform>().rect.height);
-        containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<GridLayoutGroup>().cellSize.x * (listSize - 1), containerRect.GetComponent<RectTransform>().sizeDelta.y);
-        containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        imageGrid = containerRect.GetComponent<GridLayoutGroup>();
+        imageRect = containerRect.GetComponent<RectTransform>();
+
+        imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
+        imageRect.sizeDelta = new Vector2(imageRect.rect.width - ((imageGrid.cellSize.x + imageGrid.spacing.x) * listSize), imageRect.sizeDelta.y);
+        imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
 
         for (int i = 0; i < listSize; i++)
         {
@@ -33,8 +41,7 @@ public class ImagePanel : MonoBehaviour
             imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI); });
 
             //Sets newly created button to display list.
-            itemsList[i] = newImage;
-            newImage.transform.parent = this.transform;
+            newImage.transform.SetParent(imageGrid.transform);
         }
     }
 
