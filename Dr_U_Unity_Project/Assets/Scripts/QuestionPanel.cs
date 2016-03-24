@@ -30,7 +30,6 @@ public class QuestionPanel : MonoBehaviour
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         
 
-        int i = 0;
         foreach (KeyValuePair<string, string> question in FAQs)
         {
             GameObject newButton = Instantiate(originalButton);
@@ -38,8 +37,7 @@ public class QuestionPanel : MonoBehaviour
             FAQ.question = question.Key;
             FAQ.answer = question.Value;
             newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
-            newButton.transform.SetParent(faqGrid.transform);
-            i++;
+            newButton.transform.SetParent(faqRect.transform);
         }
     }
 

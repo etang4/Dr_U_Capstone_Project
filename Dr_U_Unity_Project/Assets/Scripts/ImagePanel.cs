@@ -30,18 +30,18 @@ public class ImagePanel : MonoBehaviour
         imageRect.sizeDelta = new Vector2(imageRect.rect.width - ((imageGrid.cellSize.x + imageGrid.spacing.x) * listSize), imageRect.sizeDelta.y);
         imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
 
-        for (int i = 0; i < listSize; i++)
+        foreach(Sprite image in SetImages)
         {
             //Instantiates buttons from image array.
-            GameObject newImage = new GameObject("Image " + i);
+            GameObject newImage = new GameObject(image.name);
             Image imageUI = newImage.AddComponent<Image>();
-            imageUI.sprite = SetImages[i];
+            imageUI.sprite = image;
             Button imageButton = newImage.AddComponent<Button>();
             imageButton.targetGraphic = imageUI;
             imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI); });
 
             //Sets newly created button to display list.
-            newImage.transform.SetParent(imageGrid.transform);
+            newImage.transform.SetParent(imageRect.transform);
         }
     }
 
