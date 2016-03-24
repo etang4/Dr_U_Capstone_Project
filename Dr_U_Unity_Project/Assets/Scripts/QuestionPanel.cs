@@ -6,12 +6,10 @@ using UnityEngine.UI;
 public class QuestionPanel : MonoBehaviour
 {
 
-    public GameObject originalButton;
-    public GameObject[] itemsList;
-    public int listSize;
-    public GameObject[] items;
+    public GameObject originalButton;    
     public GameObject containerRect;
 
+    private int listSize;
     private GridLayoutGroup faqGrid;
     private RectTransform faqRect;
 
@@ -20,17 +18,18 @@ public class QuestionPanel : MonoBehaviour
     {
 		// TODO TEMP
 		Debug.Log("starting QuestionPanel...");
-		
+        Dictionary<string, string> FAQs = GetFAQs();
+
+
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
         faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 1));
+        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
+        // magic number, not sure why +4 works, I think I'm missing something in the y range...
 
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         
-        //containerRect.GetComponent<RectTransform>().offsetMin = new Vector2(containerRect.GetComponent<RectTransform>().offsetMin.x, bottom);
 
-        Dictionary<string, string> FAQs = GetFAQs();
         int i = 0;
         foreach (KeyValuePair<string, string> question in FAQs)
         {
@@ -38,9 +37,8 @@ public class QuestionPanel : MonoBehaviour
             FAQButton FAQ = newButton.GetComponent<FAQButton>();
             FAQ.question = question.Key;
             FAQ.answer = question.Value;
-            itemsList[i] = newButton;
             newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
-            newButton.transform.parent = this.transform;
+            newButton.transform.SetParent(faqGrid.transform);
             i++;
         }
     }
@@ -49,10 +47,22 @@ public class QuestionPanel : MonoBehaviour
     private Dictionary<string, string> GetFAQs()
     {
         Dictionary<string, string> dict = new Dictionary<string, string>();
-        for (int i = 0; i < listSize; i++)
-        {
-            dict["Frequently Asked Question #" + i + "?"] = "Answer #" + i;
-        }
+		dict ["When Were dinosaurs found?"] = "From 250 million years ago up until 65 million years.";
+		dict ["How many horns did Triceratops have?"] = "Three";
+		dict ["Which came first, the Jurassic or Cretaceous Period?"] = "The Jurassic Period";
+		dict ["Was Diplodocus a carnivore or herbivore?"] = "Herbivore";
+		dict ["Did Theropods such as Allosaurus and Carnotaurus move on two legs or four?"] = "Two";
+		dict ["Apatosaurus is also widely known by what other name?"] = "Brontosaurus";
+		dict ["What type of dinosaur features on the logo of the Toronto based NBA basketball team?"] = "Raptor (Velociraptor)";
+		dict ["What dinosaur themed book was turned into a blockbuster movie in 1993?"] = "Jurassic Park";
+		dict ["Did Sauropods such as Brachiosaurus and Diplodocus move on two legs or four?"] = "Four";
+		dict ["Which came first, the Jurassic or Triassic Period?"] = "The Triassic Period";
+		dict ["What weighed more, a fully grown Spinosaurus or Deinonychus?"] = "Spinosaurus";
+		dict ["A person who studies fossils and prehistoric life such as dinosaurs is known as a what?"] = "Paleontologist";
+		dict ["Did birds evolved from dinosaurs."] = "Yes!";
+
+        listSize = dict.Count;
+
         return dict;
     }
 }

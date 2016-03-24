@@ -5587,19 +5587,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275044da3685bad46bac77f10c40599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  listSize: 5
   SetImages:
   - {fileID: 21300000, guid: 487026094c4df68449c404359be75da9, type: 3}
   - {fileID: 21300000, guid: 8d2b00c0d020df640ba563955158d421, type: 3}
   - {fileID: 21300000, guid: 1e47420be48555f4a891ffec268ee5ec, type: 3}
+  - {fileID: 21300000, guid: f4f6fee8dfda0e2478716d8f9d0ce1b6, type: 3}
   - {fileID: 21300000, guid: 487026094c4df68449c404359be75da9, type: 3}
-  - {fileID: 21300000, guid: 8d2b00c0d020df640ba563955158d421, type: 3}
   containerRect: {fileID: 1659777175}
   MoreInfoImagePanel: {fileID: 948756241}
 --- !u!1 &1672943249
@@ -7003,19 +6996,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalButton: {fileID: 171840, guid: 189731dfc635b804681f5933470f2b5a, type: 2}
-  itemsList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  listSize: 10
-  items: []
   containerRect: {fileID: 2007765976}
 --- !u!114 &2007765981
 MonoBehaviour:
