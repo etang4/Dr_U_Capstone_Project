@@ -4,12 +4,32 @@ using UnityEngine.UI;
 
 public class UpgradePanel : MonoBehaviour
 {
-    public GameObject[] itemsList;
-    public int listSize;
-    public Sprite[] SetImages;
-    public GameObject containerRect;
-
-    public GameObject MoreInfoImagePanel;
+	public GameObject[] itemsList;
+	public int listSize;
+	public Sprite[] SetImages;
+	public GameObject containerRect;
+	
+	public GameObject MoreInfoImagePanel;
+	
+	public const int drUUpgrade1 = 10;
+	public const int drUUpgrade2 = 20;
+	
+	public static bool drUUpgrade1IsActive = false;
+	public static bool drUUpgrade2IsActive = false;
+	
+	public static bool getDrUUpgrade1IsActive() 
+	{
+		return drUUpgrade1IsActive;
+	}
+	
+	public static int getDrUUpgrade1() 
+	{
+		int score = 0;
+		if (getDrUUpgrade1IsActive ()) {
+			score = drUUpgrade1;
+		}
+		return score;
+	}
 
     // Use this for initialization
     void Start()
@@ -47,5 +67,6 @@ public class UpgradePanel : MonoBehaviour
         MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
         MoreInfoImagePanel.SetActive(true);
     }
+
 }
 

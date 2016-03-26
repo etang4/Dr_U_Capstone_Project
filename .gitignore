@@ -16,9 +16,16 @@
 
 # Unity3D generated meta files
 *.pidb.meta
+*.*.meta
+*.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
 # Random Mac OS Files
 *.DS_Store
+.vscode/
+
+# UnityTestTools Files
+Dr_U_Unity_Project/Assets/test-results/
+Dr_U_Unity_Project/test-results/

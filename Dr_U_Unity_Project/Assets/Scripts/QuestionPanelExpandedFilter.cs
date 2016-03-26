@@ -54,13 +54,17 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             x++;
         }
 
+		BadgePanel.addQuestionAsked(1);
+		
 		if (x == 0) {
 			ResourceCounter.addPoints(10);
+			BadgePanel.addStumped(1);
 		} else if (x > 0)  {
 			ResourceCounter.addPoints(5);
 		}
 
     }
+
 
 
     private Dictionary<string, string> fakeSearch(string input, int id)
