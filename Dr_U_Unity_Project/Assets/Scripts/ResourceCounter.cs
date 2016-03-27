@@ -8,18 +8,29 @@ public class ResourceCounter : MonoBehaviour
 {
 	public Text counter;
 	public static int count;
+    private static GameObject alert;
+    private static Text alertText;
+    private static Animation addScore;
 	
 	// Use this for initialization
 	void Start() {
 		count = PlayerPrefs.GetInt("count");
 		counter = GetComponent<Text>();
+
+        alert = GameObject.Find("ScoreAlert");
+        alertText = alert.GetComponentsInChildren<Text>()[0];
+
+        addScore = alert.gameObject.GetComponent<Animation>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		counter.text = count.ToString () + " EXP";
-		PlayerPrefs.SetInt("count", count);
-		PlayerPrefs.Save ();
+        if (!addScore.isPlaying)
+        {
+            counter.text = count.ToString() + " EXP";
+            PlayerPrefs.SetInt("count", count);
+            PlayerPrefs.Save();
+        }
 	}
 
 	void OnApplicationQuit() {
@@ -27,7 +38,13 @@ public class ResourceCounter : MonoBehaviour
 	}
 
 
+
 	public static void addPoints(int points) {
-		count += points;
+        alertText.text = points.ToString();
+        addScore.PlayQueued("AddScore");
+        count += points;
 	}
+
+
+
 }

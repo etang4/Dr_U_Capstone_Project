@@ -39,7 +39,6 @@ public class ImagePanel : MonoBehaviour
             Button imageButton = newImage.AddComponent<Button>();
             imageButton.targetGraphic = imageUI;
             imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI); });
-
             //Sets newly created button to display list.
             newImage.transform.SetParent(imageRect.transform);
         }
