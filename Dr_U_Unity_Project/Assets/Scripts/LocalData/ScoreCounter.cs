@@ -3,7 +3,7 @@ using SimpleSQL;
 public class ScoreCounter
 {
 	
-	[PrimaryKey]
+	[PrimaryKey, AutoIncrement]
 	public int counterID { get; set; }
 	
 	public string type { get; set; }

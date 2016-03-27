@@ -3,7 +3,7 @@ using SimpleSQL;
 public class Badge
 {
 	
-	[PrimaryKey]
+	[PrimaryKey, AutoIncrement]
 	public int badgeID { get; set; }
 	
 	public string name { get; set; }
@@ -12,7 +12,7 @@ public class Badge
 
 	public string iconFile { get; set; }
 	
-	public bool isActive { get; set; }
+	public int isActive { get; set; }
 	
 	public int countNeeded { get; set; }
 	
