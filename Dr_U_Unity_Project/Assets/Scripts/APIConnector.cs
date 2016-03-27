@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using LitJson;
 
 public class APIConnector : MonoBehaviour {
 
@@ -41,9 +43,9 @@ public class APIConnector : MonoBehaviour {
 	}
 
 	// Get all the extimotes
-	public static string GetEstimotes()
+	public static Estimote[] GetEstimotes()
 	{
-		string streamData;
+		Estimote[] json;
 		Auth myAuth = new Auth();
 		string authInfo = myAuth.GetAuthentication();
 		string authInfoEncoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(authInfo));
@@ -55,17 +57,18 @@ public class APIConnector : MonoBehaviour {
 		{
 			using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(response.CharacterSet))) 
 			{
-				streamData = reader.ReadToEnd(); 
+				JsonMapper.RegisterImporter<string, int>(Int32.Parse);
+				json = JsonMapper.ToObject<Estimote[]>(reader.ReadToEnd());
 			}
 		}
 
-		return streamData;
+		return json;
 	}
 
 	// Get all the questions
-	public static string GetQuestions()
+	public static Question[] GetQuestions()
 	{
-		string streamData;
+		Question[] json;
 		Auth myAuth = new Auth();
 		string authInfo = myAuth.GetAuthentication();
 		string authInfoEncoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(authInfo));
@@ -77,17 +80,18 @@ public class APIConnector : MonoBehaviour {
 		{
 			using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(response.CharacterSet))) 
 			{
-				streamData = reader.ReadToEnd(); 
+				JsonMapper.RegisterImporter<string, int>(Int32.Parse);
+				json = JsonMapper.ToObject<Question[]>(reader.ReadToEnd());
 			}
 		}
 		
-		return streamData;
+		return json;
 	}
 
 	// Get all the answers
-	public static string GetAnswers()
+	public static Answer[] GetAnswers()
 	{
-		string streamData;
+		Answer[] json;
 		Auth myAuth = new Auth();
 		string authInfo = myAuth.GetAuthentication();
 		string authInfoEncoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(authInfo));
@@ -99,17 +103,18 @@ public class APIConnector : MonoBehaviour {
 		{
 			using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(response.CharacterSet))) 
 			{
-				streamData = reader.ReadToEnd(); 
+				JsonMapper.RegisterImporter<string, int>(Int32.Parse);
+				json = JsonMapper.ToObject<Answer[]>(reader.ReadToEnd());
 			}
 		}
 		
-		return streamData;
+		return json;
 	}
 
 	// Get all the exhibits
-	public static string GetExhibits()
+	public static Exhibit[] GetExhibits()
 	{
-		string streamData;
+		Exhibit[] json;
 		Auth myAuth = new Auth();
 		string authInfo = myAuth.GetAuthentication();
 		string authInfoEncoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(authInfo));
@@ -121,11 +126,12 @@ public class APIConnector : MonoBehaviour {
 		{
 			using (var reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(response.CharacterSet))) 
 			{
-				streamData = reader.ReadToEnd(); 
+				JsonMapper.RegisterImporter<string, int>(Int32.Parse);
+				json = JsonMapper.ToObject<Exhibit[]>(reader.ReadToEnd());
 			}
 		}
 		
-		return streamData;
+		return json;
 	}
 
 }

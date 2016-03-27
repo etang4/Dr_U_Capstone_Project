@@ -11,7 +11,7 @@ public class ResourceCounter : MonoBehaviour
 	
 	// Use this for initialization
 	void Start() {
-		count = PlayerPrefs.GetInt("count");
+		count = PlayerPrefs.GetInt("count", 0);
 		counter = GetComponent<Text>();
 	}
 	
