@@ -3,7 +3,7 @@ using SimpleSQL;
 public class Unlock
 {
 	
-	[PrimaryKey]
+	[PrimaryKey, AutoIncrement]
 	public int unlockID { get; set; }
 	
 	public string name { get; set; }
@@ -12,7 +12,7 @@ public class Unlock
 	
 	public string iconFile { get; set; }
 	
-	public bool isActive { get; set; }
+	public int isActive { get; set; }
 
 	public int exhibitID { get; set; }
 

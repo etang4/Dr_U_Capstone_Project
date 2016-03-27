@@ -3,7 +3,7 @@ using SimpleSQL;
 public class Upgrade
 {
 	
-	[PrimaryKey]
+	[PrimaryKey, AutoIncrement]
 	public int upgradeID { get; set; }
 	
 	public string name { get; set; }
@@ -12,7 +12,7 @@ public class Upgrade
 
 	public string iconFile { get; set; }
 	
-	public bool isActive { get; set; }
+	public int isActive { get; set; }
 
 	public int price { get; set; }
 

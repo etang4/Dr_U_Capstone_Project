@@ -3,7 +3,7 @@ using SimpleSQL;
 public class Score
 {
 
-	[PrimaryKey]
+	[PrimaryKey, AutoIncrement]
 	public int playerID { get; set; }
 	
 	public string player_name { get; set; }
