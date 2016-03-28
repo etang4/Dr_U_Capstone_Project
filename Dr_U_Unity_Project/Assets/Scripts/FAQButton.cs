@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class FAQButton : MonoBehaviour {
     public string question = "";
     public string answer = "";
+	public string language;
+
+	public QuestionAnswerPair faqPair;
     public Color questionColor;
     public Color answerColor;
 
@@ -13,6 +16,9 @@ public class FAQButton : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.gameObject.GetComponent<Image>().color = questionColor;
+
+		//Default setting for language is english
+		language = PlayerPrefs.GetString("language", "English");
 
 	}
 	
@@ -37,7 +43,11 @@ public class FAQButton : MonoBehaviour {
     {
         this.gameObject.GetComponent<Animation>().Play("FlipButton");
         this.gameObject.GetComponent<Image>().color = answerColor;
-        this.gameObject.transform.GetChild(0).GetComponent<Text>().text = question + "\n\n" + answer;
+		if (language == "Espanol") {
+			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question_es + "\n\n" + faqPair.answer_es;
+		} else {
+			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question + "\n\n" + faqPair.answer;
+		}
         
     }
 
@@ -45,7 +55,11 @@ public class FAQButton : MonoBehaviour {
     {
         this.gameObject.GetComponent<Animation>().Play("FlipButton");
         this.gameObject.GetComponent<Image>().color = questionColor;
-        this.gameObject.transform.GetChild(0).GetComponent<Text>().text = question;
+		if (language == "Espanol") {
+			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question_es;
+		} else {
+			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question;
+		}
         
     }
 }
