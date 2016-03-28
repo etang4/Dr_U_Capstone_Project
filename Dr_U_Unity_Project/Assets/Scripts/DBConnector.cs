@@ -14,6 +14,7 @@ public class DBConnector : MonoBehaviour {
 	private System.DateTime currentDate;
 	private System.DateTime db_date;
 
+
 	// Use this for initialization
 	void Start () {
 
@@ -21,7 +22,7 @@ public class DBConnector : MonoBehaviour {
 		currentDate = System.DateTime.UtcNow;
 		currentDate_string = ConvertDateTimeToBinaryString(currentDate);
 
-		db_exists = PlayerPrefs.GetInt("db_exists", 0);
+		db_exists = PlayerPrefs.GetInt("db_exists", 1);
 		db_date_string = PlayerPrefs.GetString("db_date", currentDate_string);
 		db_date = ConvertBinaryStringToDateTime(db_date_string);
 
@@ -44,11 +45,18 @@ public class DBConnector : MonoBehaviour {
 
 		}
 
+		/*
+		var qa = SelectQuestionAnswerPairs();
+		Debug.Log(qa.ToString ());
+		foreach (QuestionAnswerPair p in qa) {
+			Debug.Log(p.ToString());
+		}
+
 		var exh = SelectExhibits ();
 		foreach (Exhibit e in exh) 
 		{
 			Debug.Log(e.ToString());
-		}
+		}*/
 
 	}
 	
@@ -347,10 +355,5 @@ public class DBConnector : MonoBehaviour {
 		return time;
 	}
 
-	/*
-	public KeyValuePair<Question, Answer> SelectQuestionAnswerPairs() {
-
-
-	}*/
 
 }

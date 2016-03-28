@@ -525,6 +525,50 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 88418756}
+--- !u!1 &95841702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 95841704}
+  - 114: {fileID: 95841703}
+  m_Layer: 0
+  m_Name: DB Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &95841703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 95841702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1705125264, guid: 2dcb93ce324a2bc45af48b46e4196b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  databaseFile: {fileID: 4900000, guid: 9b862961a638941c29787fb273a62231, type: 3}
+  changeWorkingName: 0
+  workingName: 
+  overwriteIfExists: 0
+  debugTrace: 1
+--- !u!4 &95841704
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 95841702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &115181274
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,8 +4190,8 @@ GameObject:
   - 223: {fileID: 1227998364}
   - 114: {fileID: 1227998363}
   - 114: {fileID: 1227998362}
-  - 114: {fileID: 1227998365}
   - 111: {fileID: 1227998366}
+  - 114: {fileID: 1227998365}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4236,7 +4280,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227998360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e31b03856ab687d44903a4398aa6bb6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ad30417667a88548bad14a8c8fd7423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!111 &1227998366
@@ -7340,6 +7384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalButton: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
   containerRect: {fileID: 2007765976}
+  dbManager: {fileID: 95841703}
 --- !u!114 &2007765981
 MonoBehaviour:
   m_ObjectHideFlags: 0

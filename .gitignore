@@ -27,3 +27,7 @@ sysinfo.txt
 # UnityTestTools Files
 Dr_U_Unity_Project/Assets/test-results/
 Dr_U_Unity_Project/test-results/
+
+# Big Database
+Dr_U_Unity_Project/Assets/Databases/LocalDB.bytes
+Dr_U_Unity_Project/Assets/Databases/LocalDB.bytes.meta

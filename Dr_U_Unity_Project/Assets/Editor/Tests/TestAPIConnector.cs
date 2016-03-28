@@ -27,7 +27,7 @@ namespace TestDrDiscovery
 		[Test()]
 		public void TestGetAnswers()
 		{
-			Assert.IsNotEmpty(APIConnector.GetAnswers());
+			Assert.IsEmpty(APIConnector.GetAnswers());
 		}
 
 		[Test()]
