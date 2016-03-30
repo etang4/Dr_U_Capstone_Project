@@ -4633,8 +4633,9 @@ GameObject:
   - 224: {fileID: 1333885758}
   - 222: {fileID: 1333885760}
   - 114: {fileID: 1333885759}
+  - 95: {fileID: 1333885763}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Dr. U
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4652,10 +4653,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1577738785}
   m_RootOrder: 1
-  m_AnchorMin: {x: .242000014, y: .43900001}
-  m_AnchorMax: {x: .748652637, y: .872259796}
-  m_AnchoredPosition: {x: 2, y: 2.5}
-  m_SizeDelta: {x: -13, y: -7}
+  m_AnchorMin: {x: .0633990765, y: .27930516}
+  m_AnchorMax: {x: .8873052, y: .986000061}
+  m_AnchoredPosition: {x: 1.5, y: 2.38000107}
+  m_SizeDelta: {x: 0, y: 1.75999451}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1333885759
 MonoBehaviour:
@@ -4676,7 +4677,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f4f6fee8dfda0e2478716d8f9d0ce1b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6bb372b7759a53e4087c8c86fbed1ec4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4690,6 +4691,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333885757}
+--- !u!95 &1333885763
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333885757}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a23cd426c13f7294d86ad2b2a060ab87, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1391252863
 GameObject:
   m_ObjectHideFlags: 0
@@ -5238,7 +5256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1577738785
 RectTransform:
   m_ObjectHideFlags: 0
