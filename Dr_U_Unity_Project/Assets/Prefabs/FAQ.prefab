@@ -48,6 +48,7 @@ Animation:
   m_Animation: {fileID: 7400000, guid: b03fc052bb512a540b02fd7d6f2c9daf, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 8ba272ba537cf7c41b99e3921d2302d5, type: 2}
+  - {fileID: 7400000, guid: 77e4ac5511d80fe4c89806c735115759, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   question: 
   answer: 
+  language: 
   questionColor: {r: .23137255, g: .502718091, b: .729411781, a: 1}
   answerColor: {r: .207843155, g: .647058845, b: .501960814, a: 1}
 --- !u!114 &11436296
@@ -231,7 +233,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Animations.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Animations.Array.data[1]
+      value: 
+      objectReference: {fileID: 7400000, guid: 77e4ac5511d80fe4c89806c735115759, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 132350}

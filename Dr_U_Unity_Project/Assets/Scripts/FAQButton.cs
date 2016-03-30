@@ -29,6 +29,7 @@ public class FAQButton : MonoBehaviour {
 
     public void toggleFAQ()
     {
+        Debug.Log("test");
         if (this.gameObject.GetComponent<Image>().color == answerColor)
         {
             switchToQuestion();
@@ -48,7 +49,7 @@ public class FAQButton : MonoBehaviour {
 		} else {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question + "\n\n" + faqPair.answer;
 		}
-        
+        this.gameObject.GetComponent<Animation>().Play("FlipButtonReverse");
     }
 
     public void switchToQuestion()
@@ -60,6 +61,6 @@ public class FAQButton : MonoBehaviour {
 		} else {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question;
 		}
-        
+        this.gameObject.GetComponent<Animation>().Play("FlipButtonReverse");
     }
 }
