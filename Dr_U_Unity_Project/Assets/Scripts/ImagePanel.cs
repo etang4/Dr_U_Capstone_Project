@@ -27,8 +27,10 @@ public class ImagePanel : MonoBehaviour
         imageRect = containerRect.GetComponent<RectTransform>();
 
         imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
-        imageRect.sizeDelta = new Vector2(imageRect.rect.width - ((imageGrid.cellSize.x + imageGrid.spacing.x) * listSize), imageRect.sizeDelta.y);
+        //imageRect.sizeDelta = new Vector2(Screen.width - ((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize-2)), imageRect.sizeDelta.y);
+        imageRect.sizeDelta = new Vector2(imageGrid.cellSize.x * (listSize - 2), imageRect.sizeDelta.y); //TODO: Eric's legacy code.
         imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
+
 
         foreach(Sprite image in SetImages)
         {

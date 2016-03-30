@@ -11,7 +11,6 @@ public class QuestionPanel : MonoBehaviour
     public GameObject containerRect;
 	public SimpleSQL.SimpleSQLManager dbManager;
 
-    private int listSize;
     private GridLayoutGroup faqGrid;
     private RectTransform faqRect;
 	//private DBConnector localDB;
@@ -26,12 +25,13 @@ public class QuestionPanel : MonoBehaviour
 		langauge = PlayerPrefs.GetString("language", "English");
 		//localDB = new DBConnector();
 		List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
+        int listSize = FAQs.Count;
 
 
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
-        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
+        faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
+        faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
         // magic number, not sure why +4 works, I think I'm missing something in the y range...
 
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
@@ -47,17 +47,6 @@ public class QuestionPanel : MonoBehaviour
 			}
 			newButton.transform.SetParent(faqRect.transform);
 		}
-
-		/*
-        foreach (KeyValuePair<string, string> question in FAQs)
-        {
-            GameObject newButton = Instantiate(originalButton);
-            FAQButton FAQ = newButton.GetComponent<FAQButton>();
-            FAQ.question = question.Key;
-            FAQ.answer = question.Value;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
-            newButton.transform.SetParent(faqRect.transform);
-        }*/
     }
 
 	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
@@ -65,29 +54,8 @@ public class QuestionPanel : MonoBehaviour
 		
 		string sql = "select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != -1 LIMIT 50";
 		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair>(sql);
-		
+
 		return pair_list;
+        
 	}
-
-    private Dictionary<string, string> GetFAQs()
-    {
-        Dictionary<string, string> dict = new Dictionary<string, string>();
-		dict ["When Were dinosaurs found?"] = "From 250 million years ago up until 65 million years.";
-		dict ["How many horns did Triceratops have?"] = "Three";
-		dict ["Which came first, the Jurassic or Cretaceous Period?"] = "The Jurassic Period";
-		dict ["Was Diplodocus a carnivore or herbivore?"] = "Herbivore";
-		dict ["Did Theropods such as Allosaurus and Carnotaurus move on two legs or four?"] = "Two";
-		dict ["Apatosaurus is also widely known by what other name?"] = "Brontosaurus";
-		dict ["What type of dinosaur features on the logo of the Toronto based NBA basketball team?"] = "Raptor (Velociraptor)";
-		dict ["What dinosaur themed book was turned into a blockbuster movie in 1993?"] = "Jurassic Park";
-		dict ["Did Sauropods such as Brachiosaurus and Diplodocus move on two legs or four?"] = "Four";
-		dict ["Which came first, the Jurassic or Triassic Period?"] = "The Triassic Period";
-		dict ["What weighed more, a fully grown Spinosaurus or Deinonychus?"] = "Spinosaurus";
-		dict ["A person who studies fossils and prehistoric life such as dinosaurs is known as a what?"] = "Paleontologist";
-		dict ["Did birds evolved from dinosaurs."] = "Yes!";
-
-        listSize = dict.Count;
-
-        return dict;
-    }
 }
