@@ -26,12 +26,14 @@ public class QuestionPanel : MonoBehaviour
 		//localDB = new DBConnector();
 		List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
         int listSize = FAQs.Count;
-
+        
 
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
+        
         faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
+        faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, ((faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize)));
+
         // magic number, not sure why +4 works, I think I'm missing something in the y range...
 
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
