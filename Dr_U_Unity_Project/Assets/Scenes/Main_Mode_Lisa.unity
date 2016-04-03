@@ -3073,6 +3073,9 @@ GameObject:
   - 114: {fileID: 789869867}
   - 114: {fileID: 789869866}
   - 114: {fileID: 789869865}
+  - 114: {fileID: 789869869}
+  - 114: {fileID: 789869871}
+  - 114: {fileID: 789869870}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -3136,6 +3139,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &789869869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 789869864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad30417667a88548bad14a8c8fd7423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &789869870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 789869864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776fcd3d328dd43b0910a5905148c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbManager: {fileID: 95841703}
+--- !u!114 &789869871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 789869864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910561b8fa82f714b971f8b276b76eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbManager: {fileID: 95841703}
 --- !u!1 &843686579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4191,7 +4229,6 @@ GameObject:
   - 114: {fileID: 1227998363}
   - 114: {fileID: 1227998362}
   - 111: {fileID: 1227998366}
-  - 114: {fileID: 1227998365}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4272,17 +4309,6 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!114 &1227998365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1227998360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ad30417667a88548bad14a8c8fd7423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!111 &1227998366
 Animation:
   m_ObjectHideFlags: 0
