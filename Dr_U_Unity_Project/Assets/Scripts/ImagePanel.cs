@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ImagePanel : MonoBehaviour
 {
-    public Sprite[] SetImages;     // This will be replaced with a database call
+    private Sprite[] SetImages;     // This will be replaced with a database call
     public GameObject containerRect;
 
     public GameObject MoreInfoImagePanel;
@@ -16,6 +16,8 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Retrieves all images from Assets/Resources/Test_Images
+        SetImages = Resources.LoadAll<Sprite>("Test_Images");
         listSize = SetImages.Length;
 
 
@@ -27,7 +29,9 @@ public class ImagePanel : MonoBehaviour
         imageRect = containerRect.GetComponent<RectTransform>();
 
         imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
-        imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x*2, imageRect.sizeDelta.y); 
+        imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x*2, imageRect.sizeDelta.y);
+
+        
 
         foreach(Sprite image in SetImages)
         {
