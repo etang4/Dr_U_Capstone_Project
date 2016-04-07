@@ -18,9 +18,9 @@ public class FAQButton : MonoBehaviour {
         this.gameObject.GetComponent<Image>().color = questionColor;
 
 		//Default setting for language is english
-		language = PlayerPrefs.GetString("language", "English");
+		//language = PlayerPrefs.GetString("language");
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,7 +29,7 @@ public class FAQButton : MonoBehaviour {
 
     public void toggleFAQ()
     {
-        Debug.Log("test");
+        //Debug.Log("test");
         if (this.gameObject.GetComponent<Image>().color == answerColor)
         {
             switchToQuestion();
@@ -44,7 +44,8 @@ public class FAQButton : MonoBehaviour {
     {
         this.gameObject.GetComponent<Animation>().Play("FlipButton");
         this.gameObject.GetComponent<Image>().color = answerColor;
-		if (language == "Espanol") {
+        //TODO: Use a local variable in the future. Right now, we can't update language option.
+		if (PlayerPrefs.GetString("language") == "Espanol") {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question_es + "\n\n" + faqPair.answer_es;
 		} else {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question + "\n\n" + faqPair.answer;
@@ -56,7 +57,7 @@ public class FAQButton : MonoBehaviour {
     {
         this.gameObject.GetComponent<Animation>().Play("FlipButton");
         this.gameObject.GetComponent<Image>().color = questionColor;
-		if (language == "Espanol") {
+		if (PlayerPrefs.GetString("language") == "Espanol") {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question_es;
 		} else {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question;
