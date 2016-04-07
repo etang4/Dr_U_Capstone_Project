@@ -22,10 +22,25 @@ public class QuestionPanel : MonoBehaviour
     {
 		// TODO TEMP
 		Debug.Log("starting QuestionPanel...");
-        //Dictionary<string, string> FAQs = GetFAQs();
-		langauge = PlayerPrefs.GetString("language", "English");
-		//localDB = new DBConnector();
-		List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
+        loadFAQs();
+    }
+
+    public void loadFAQs()
+    {
+        foreach(Transform child in this.gameObject.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        if (PlayerPrefs.GetString("language") == null)
+        {
+            langauge = PlayerPrefs.GetString("language", "English");
+        }
+        else
+        {
+            langauge = PlayerPrefs.GetString("language");
+        }
+        //localDB = new DBConnector();
+        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
 
 
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
@@ -35,29 +50,22 @@ public class QuestionPanel : MonoBehaviour
         // magic number, not sure why +4 works, I think I'm missing something in the y range...
 
         faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
-        
-		foreach (QuestionAnswerPair pair in FAQs) {
-			GameObject newButton = Instantiate(originalButton);
-			FAQButton FAQ = newButton.GetComponent<FAQButton>();
-			FAQ.faqPair = pair;
-			if (langauge == "Espanol"){
-				newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
-			} else {
-				newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
-			}
-			newButton.transform.SetParent(faqRect.transform);
-		}
 
-		/*
-        foreach (KeyValuePair<string, string> question in FAQs)
+        foreach (QuestionAnswerPair pair in FAQs)
         {
             GameObject newButton = Instantiate(originalButton);
             FAQButton FAQ = newButton.GetComponent<FAQButton>();
-            FAQ.question = question.Key;
-            FAQ.answer = question.Value;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
+            FAQ.faqPair = pair;
+            if (langauge == "Espanol")
+            {
+                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
+            }
+            else
+            {
+                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
+            }
             newButton.transform.SetParent(faqRect.transform);
-        }*/
+        }
     }
 
 	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
