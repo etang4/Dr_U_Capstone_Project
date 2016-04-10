@@ -31,12 +31,11 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        loadImages();
-    }
-    public void loadImages(){ 
         int estimoteID = 1; ////////////////////// This should auto update with location changes
-
-
+        loadImages(estimoteID);
+    }
+    public void loadImages(int estimoteID)
+    { 
 
         image_path = Application.persistentDataPath + "/";  // Set storage path
 
