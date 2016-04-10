@@ -40,10 +40,16 @@ public class ImagePanel : MonoBehaviour
         List<ImageStorage> image_storage = new List<ImageStorage>();
         foreach (ImagePair image_info in image_list)
         {
-            ImageStorage newImage = new ImageStorage();
-            newImage.imageInfo = image_info;
-            newImage.imageSprite = getImage(image_info);
-            image_storage.Add(newImage);
+			// Try catch block to ignore broken images
+			try
+            {
+				ImageStorage newImage = new ImageStorage();
+				newImage.imageInfo = image_info;
+				newImage.imageSprite = getImage(image_info);
+				image_storage.Add(newImage);
+			}catch(Exception e){
+				Debug.Log(e);
+			}
         }
         
         //Retrieves all images from Assets/Resources/Test_Images
@@ -63,38 +69,31 @@ public class ImagePanel : MonoBehaviour
 
         foreach (ImageStorage storage in image_storage)
         {
-            try
-            {
-                Sprite image = storage.imageSprite;
-                //Instantiates buttons from image array.
-                GameObject newImage = new GameObject(storage.imageSprite.name);
-                Image imageUI = newImage.AddComponent<Image>();
-                imageUI.sprite = image;
-                Button imageButton = newImage.AddComponent<Button>();
-                imageButton.targetGraphic = imageUI;
-                imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI, image.name, storage.imageInfo.information); });
-                //Sets newly created button to display list.
-                newImage.transform.SetParent(imageRect.transform);
-            }
-            catch (NullReferenceException e)
-            {
-                Debug.Log(e);
-            }
+			Sprite image = storage.imageSprite;
+			//Instantiates buttons from image array.
+			GameObject newImage = new GameObject(storage.imageSprite.name);
+			Image imageUI = newImage.AddComponent<Image>();
+			imageUI.sprite = image;
+			Button imageButton = newImage.AddComponent<Button>();
+			imageButton.targetGraphic = imageUI;
+            string currentInfo = storage.imageInfo.information; // Required to create temp variable or else each listener will be set to the last object in the callback
+            imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI, currentInfo); });
+			//Sets newly created button to display list.
+			newImage.transform.SetParent(imageRect.transform);
         }
     }
 
     //Event called onClick.
-    public void ActivateMoreInfoImagePanel(Image currentImg, String currentName, String currentInfo) //Needs parameter at some point to determine what image/data to show
+    public void ActivateMoreInfoImagePanel(Image currentImg, String currentInfo) //Needs parameter at some point to determine what image/data to show
     {
        MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
-       MoreInfoImagePanel.transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = currentInfo;
+       MoreInfoImagePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = currentInfo;
        MoreInfoImagePanel.SetActive(true);
     }
     public List<ImagePair> SelectImagePairs(int estimoteID)
     {
         string sql = string.Format("select `name`, `intro`, `information`, `image`, `exhibitID` from Exhibit WHERE estimoteID == {0} LIMIT 50", estimoteID);
         List<ImagePair> image_list = dbManager.Query<ImagePair>(sql);
-
         return image_list;
     }
 
@@ -131,14 +130,7 @@ public class ImagePanel : MonoBehaviour
             }
             string fullPath = image_path + imageName;
             System.IO.Directory.CreateDirectory(image_path);
-            try
-            {
-                File.WriteAllBytes(fullPath, www.bytes);
-            }
-            catch (ArgumentException e)
-            {
-                Debug.Log(e);
-            }
+			File.WriteAllBytes(fullPath, www.bytes);
         }
     }
 
@@ -162,7 +154,7 @@ public class ImagePanel : MonoBehaviour
                 return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);
             }
         }
-        return null;
+        throw new FileNotFoundException();
     }
 }
 
