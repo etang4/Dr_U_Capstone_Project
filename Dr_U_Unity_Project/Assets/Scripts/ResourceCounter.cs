@@ -37,14 +37,10 @@ public class ResourceCounter : MonoBehaviour
 		PlayerPrefs.DeleteKey("count");
 	}
 
-
-
 	public static void addPoints(int points) {
         alertText.text = points.ToString();
         addScore.PlayQueued("AddScore");
         count += points;
 	}
-
-
-
+    
 }
