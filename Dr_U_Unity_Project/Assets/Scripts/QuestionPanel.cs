@@ -41,6 +41,7 @@ public class QuestionPanel : MonoBehaviour
         }
         //localDB = new DBConnector();
         List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
+        listSize = FAQs.Count;
 
 
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
