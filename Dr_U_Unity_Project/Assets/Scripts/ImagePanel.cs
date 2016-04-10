@@ -31,14 +31,20 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        loadImages();
+    }
+    public void loadImages(){ 
         int estimoteID = 1; ////////////////////// This should auto update with location changes
-        image_path = Application.persistentDataPath + "/Images/";
-        
-        List<ImagePair> image_list = SelectImagePairs(estimoteID);
-        downloadImages(image_list);
+
+
+
+        image_path = Application.persistentDataPath + "/";  // Set storage path
+
+        List<ImagePair> image_list = SelectImagePairs(estimoteID);  // Grab image data from DB
+        downloadImages(image_list);     // Download missing immages
 
         List<ImageStorage> image_storage = new List<ImageStorage>();
-        foreach (ImagePair image_info in image_list)
+        foreach (ImagePair image_info in image_list)    // Make image object with all info
         {
 			// Try catch block to ignore broken images
 			try
@@ -101,11 +107,11 @@ public class ImagePanel : MonoBehaviour
     {
         DirectoryInfo dir = new DirectoryInfo(image_path);
 
-        FileInfo[] info = dir.GetFiles("*.*");
+        FileInfo[] info = dir.GetFiles("*.*");      // Grab all files in storage
         
         HashSet<string> allImageNames = new HashSet<string>();
         foreach(FileInfo f in info){
-            allImageNames.Add(f.Name);
+            allImageNames.Add(f.Name);  // Add their names to a hashset
             
         }
         // Get image name here
@@ -126,35 +132,29 @@ public class ImagePanel : MonoBehaviour
             WWW www = new WWW("http://ec2-52-32-1-167.us-west-2.compute.amazonaws.com/dru/api/services/images/" + imageName);
             while (!www.isDone)
             {
-                //do something, or nothing, I dunno... Maybe a progress bar
+                //do something, or nothing, I dunno... Maybe a progress bar?
             }
             string fullPath = image_path + imageName;
-            System.IO.Directory.CreateDirectory(image_path);
 			File.WriteAllBytes(fullPath, www.bytes);
         }
     }
 
     private Sprite getImage(ImagePair image)
     {
-        Sprite requestedImage = new Sprite();
-        HashSet<string> requestedImageNames = new HashSet<string>();
-
         DirectoryInfo dir = new DirectoryInfo(image_path);
+        FileInfo[] info = dir.GetFiles(image.image);  // Grab first file with name match
 
-        FileInfo[] info = dir.GetFiles("*.*");
-        foreach (FileInfo f in info)
+        if (info.Length == 0)
         {
-            if (f.Name == image.image)
-            {
-                string path = image_path + f.Name;
-                byte[] data = File.ReadAllBytes(path);
-                Texture2D texture = new Texture2D(128, 128, TextureFormat.ARGB32, false);
-                texture.LoadImage(data);
-                texture.name = Path.GetFileNameWithoutExtension(path);
-                return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);
-            }
+            throw new FileNotFoundException();  // Throw error if you can't find it
         }
-        throw new FileNotFoundException();
+
+        string path = image_path + info[0].Name;
+        byte[] data = File.ReadAllBytes(path);
+        Texture2D texture = new Texture2D(128, 128, TextureFormat.ARGB32, false);   // Create texture of image
+        texture.LoadImage(data);
+        texture.name = Path.GetFileNameWithoutExtension(path);
+        return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);  // Translate texture to sprite
     }
 }
 
