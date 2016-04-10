@@ -6684,6 +6684,10 @@ Prefab:
       propertyPath: m_PlayAutomatically
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 133722, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 10202394, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ImagePanel : MonoBehaviour
 {
-    public Sprite[] SetImages;     // This will be replaced with a database call
+    private Sprite[] SetImages;     // This will be replaced with a database call
     public GameObject containerRect;
 
     public GameObject MoreInfoImagePanel;
@@ -16,6 +16,8 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Retrieves all images from Assets/Resources/Test_Images
+        SetImages = Resources.LoadAll<Sprite>("Test_Images");
         listSize = SetImages.Length;
 
 
