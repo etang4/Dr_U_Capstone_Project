@@ -22,32 +22,14 @@ public class SettingsLanguageManager : MonoBehaviour {
 	
 	}
 
-    public void setLanguage()
-    {
-        int dropdownLanguageIndex = this.gameObject.GetComponent<Dropdown>().value;
-        switch (dropdownLanguageIndex)
-        {
-            case 0:
-                setEnglish();
-                break;
-            case 1:
-                setSpanish();
-                break;
-            default:
-                setEnglish();
-                break;
-        }
-        Debug.Log("Language changed to " + PlayerPrefs.GetString("language"));
-        questionPanel.GetComponent<QuestionPanel>().loadFAQs();
-        //TODO: Need to change all UI text here!
-    }
-
     public void setEnglish()
     {
         if (PlayerPrefs.GetString("language") != "English")
         {
             PlayerPrefs.SetString("language", "English");
         }
+        questionPanel.GetComponent<QuestionPanel>().loadFAQs();
+        //TODO: Need to change all UI text here!
     }
 
     public void setSpanish()
@@ -56,5 +38,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         {
             PlayerPrefs.SetString("language", "Espanol");
         }
+        questionPanel.GetComponent<QuestionPanel>().loadFAQs();
+        //TODO: Need to change all UI text here!
     }
 }
