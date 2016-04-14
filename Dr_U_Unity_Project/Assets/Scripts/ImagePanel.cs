@@ -134,7 +134,12 @@ public class ImagePanel : MonoBehaviour
                 //do something, or nothing, I dunno... Maybe a progress bar?
             }
             string fullPath = image_path + imageName;
-			File.WriteAllBytes(fullPath, www.bytes);
+            try
+            {
+                File.WriteAllBytes(fullPath, www.bytes);
+            }catch (ArgumentException e){
+                Debug.Log(e);
+            }
         }
     }
 
