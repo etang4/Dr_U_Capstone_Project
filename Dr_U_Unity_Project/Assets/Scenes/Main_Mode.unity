@@ -3063,8 +3063,8 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1147851092}
+        m_CallState: 0
+      - m_Target: {fileID: 0}
         m_MethodName: BackToMain
         m_Mode: 1
         m_Arguments:
@@ -3074,7 +3074,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 712706736}
         m_MethodName: SetActive
         m_Mode: 6
@@ -4485,7 +4485,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1147851091}
-  - 114: {fileID: 1147851092}
   m_Layer: 5
   m_Name: Script
   m_TagString: Untagged
@@ -4510,18 +4509,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
---- !u!114 &1147851092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1147851090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72df194186df33842943db778e6c925e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SearchBarText: {fileID: 507929723}
 --- !u!1 &1172583778
 GameObject:
   m_ObjectHideFlags: 0
@@ -6450,27 +6437,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 150
+      value: -470
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 150
+      value: -566
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_AnchorMin.x
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_AnchorMin.y
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_AnchorMax.x
-      value: .5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_AnchorMax.y
-      value: .5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22477460, guid: c1477483dfb57c040b797bd92b9ee4e9, type: 2}
       propertyPath: m_Pivot.x

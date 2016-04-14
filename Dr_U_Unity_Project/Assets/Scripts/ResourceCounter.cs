@@ -21,12 +21,14 @@ public class ResourceCounter : MonoBehaviour
         alertText = alert.GetComponentsInChildren<Text>()[0];
 
         addScore = alert.gameObject.GetComponent<Animation>();
+        alert.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (!addScore.isPlaying)
         {
+            alert.SetActive(false);
             counter.text = count.ToString() + " EXP";
             PlayerPrefs.SetInt("count", count);
             PlayerPrefs.Save();
@@ -37,14 +39,11 @@ public class ResourceCounter : MonoBehaviour
 		PlayerPrefs.DeleteKey("count");
 	}
 
-
-
 	public static void addPoints(int points) {
+        alert.SetActive(true);
         alertText.text = points.ToString();
-        addScore.PlayQueued("AddScore");
+        addScore.Play("AddScore");
         count += points;
 	}
-
-
-
+    
 }
