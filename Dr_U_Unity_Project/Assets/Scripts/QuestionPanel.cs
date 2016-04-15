@@ -16,13 +16,16 @@ public class QuestionPanel : MonoBehaviour
     private RectTransform faqRect;
 	//private DBConnector localDB;
 	private string language;
+    private bool _isInstantiated;
 
     // Use this for initialization
     void Start()
     {
 		// TODO TEMP
 		Debug.Log("starting QuestionPanel...");
+        _isInstantiated = false;
         loadFAQs();
+        _isInstantiated = true;
     }
 
 	public void loadFAQs()
@@ -43,14 +46,16 @@ public class QuestionPanel : MonoBehaviour
         List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
         listSize = FAQs.Count;
 
+        if (!_isInstantiated)
+        {
+            faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+            faqRect = containerRect.GetComponent<RectTransform>();
+            faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
+            faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
+            // +4 does not work for large data sets, this needs to be reconfigured
 
-        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
-        faqRect = containerRect.GetComponent<RectTransform>();
-        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
-        // +4 does not work for large data sets, this needs to be reconfigured
-
-        faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+            faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        }
 
         foreach (QuestionAnswerPair pair in FAQs)
         {

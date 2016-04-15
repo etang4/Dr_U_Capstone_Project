@@ -8,10 +8,10 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 {
     public GameObject originalButton;
     public GameObject[] itemsList;
-    public int listSize;
+    private int listSize;
     public GameObject containerRect;
     public InputField SearchBarText;
-
+    private bool _isInstantiated;
     private GridLayoutGroup faqGrid;
     private RectTransform faqRect;
 	public ResourceCounter resourceCounter;
@@ -19,15 +19,11 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
-        faqRect = containerRect.GetComponent<RectTransform>();
-        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 1));
-
-        faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
-
+        
         SearchBarText.onEndEdit.AddListener(filterList);
+        _isInstantiated = false;
         filterList(SearchBarText.text);         //Initial run
+        _isInstantiated = true;
     }
 
 
@@ -39,6 +35,20 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         int x = 0;
         foreach(GameObject item in itemsList){
             Destroy(item);
+        }
+
+        listSize = searchResults.Count;
+
+        //TODO: Cannot test if this works until search is implemented
+        if (!_isInstantiated)
+        {
+            faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+            faqRect = containerRect.GetComponent<RectTransform>();
+            faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
+            faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
+            // +4 does not work for large data sets, this needs to be reconfigured
+
+            faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         }
 
         foreach (KeyValuePair<string, string> answer in searchResults)
