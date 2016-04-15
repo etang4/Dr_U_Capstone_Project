@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using SimpleSQL;
 
 
 
@@ -31,15 +29,30 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        int estimoteID = 1; ////////////////////// This should auto update with location changes
+        Debug.Log("starting ImagePanel...");
+        loadImages(1);
+        InputSmootherHelper.ClosestBeaconChangedEvent += triggerChange;
+    }
+
+    public void triggerChange(HashSet<Beacon> new_closest, HashSet<Beacon> old_closest)
+    {
+        int estimoteID = -1;
+        foreach (Beacon beacon in new_closest)  // Update estimote ID by using major and minor
+        {
+            //beacon.minor = 36901;       // TEST CODE
+            //beacon.major = 60773;       // TEST CODE
+            string sql = string.Format("select `estimoteID` from Estimote WHERE major == {0} AND minor = {1} LIMIT 1", beacon.major, beacon.minor);
+            estimoteID = dbManager.Query<int>(sql)[0];
+
+        }
         loadImages(estimoteID);
     }
-    public void loadImages(int estimoteID)
-    { 
+    public void loadImages(int eID)
+    {
 
         image_path = Application.persistentDataPath + "/";  // Set storage path
 
-        List<ImagePair> image_list = SelectImagePairs(estimoteID);  // Grab image data from DB
+        List<ImagePair> image_list = SelectImagePairs(eID);  // Grab image data from DB
         downloadImages(image_list);     // Download missing immages
 
         List<ImageStorage> image_storage = new List<ImageStorage>();

@@ -21,15 +21,27 @@ public class QuestionPanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // TODO TEMP
-        estimoteID = 1; // TEMP SOLUTION
 		Debug.Log("starting QuestionPanel...");
+        loadFAQs(-1);    // Start with beacon -1 (pull all info)
+        InputSmootherHelper.ClosestBeaconChangedEvent += triggerChange;
+    }
+
+    public void triggerChange(HashSet<Beacon> new_closest, HashSet<Beacon> old_closest) {
+        int estimoteID = -1;
+        foreach (Beacon beacon in new_closest)  // Update estimote ID by using major and minor
+        {
+           // beacon.minor = 36901;       // TEST CODE
+           // beacon.major = 60773;       // TEST CODE
+            string sql = string.Format("select `estimoteID` from Estimote WHERE major == {0} AND minor = {1} LIMIT 1", beacon.major, beacon.minor);
+            estimoteID = dbManager.Query<int>(sql)[0];
+
+        }
         loadFAQs(estimoteID);
     }
 
 	public void loadFAQs(int eID)
     {
-        if (eID != -99) // Update estimodeID if the previous was not requested.
+        if (eID != -99) // Update estimodeID if the previous was not requested. (IE, reload FAQs)
         {
             estimoteID = eID;
         }
@@ -46,7 +58,7 @@ public class QuestionPanel : MonoBehaviour
             language = PlayerPrefs.GetString("language");
         }
         //localDB = new DBConnector();
-        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs(eID);
+        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
         listSize = FAQs.Count;
 
 
@@ -79,10 +91,9 @@ public class QuestionPanel : MonoBehaviour
         }
     }
 
-	public List<QuestionAnswerPair> SelectQuestionAnswerPairs(int eID)
+	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
 	{
-		
-		string sql = string.Format("select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != {0} LIMIT 50", eID);
+		string sql = string.Format("select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != {0} LIMIT 50", estimoteID);
 		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair>(sql);
 		
 		return pair_list;
