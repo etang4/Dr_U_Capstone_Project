@@ -38,7 +38,7 @@ public class SettingsLanguageManager : MonoBehaviour {
                 break;
         }
         Debug.Log("Language changed to " + PlayerPrefs.GetString("language"));
-        questionPanel.GetComponent<QuestionPanel>().loadFAQs();
+        questionPanel.GetComponent<QuestionPanel>().loadFAQs(-99);  //-99 will set to previous number
         //TODO: Need to change all UI text here!
     }
 

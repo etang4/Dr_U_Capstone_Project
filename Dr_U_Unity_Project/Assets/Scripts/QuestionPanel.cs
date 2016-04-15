@@ -16,17 +16,23 @@ public class QuestionPanel : MonoBehaviour
     private RectTransform faqRect;
 	//private DBConnector localDB;
 	private string language;
+    private int estimoteID;
 
     // Use this for initialization
     void Start()
     {
-		// TODO TEMP
+        // TODO TEMP
+        estimoteID = 1; // TEMP SOLUTION
 		Debug.Log("starting QuestionPanel...");
-        loadFAQs();
+        loadFAQs(estimoteID);
     }
 
-	public void loadFAQs()
+	public void loadFAQs(int eID)
     {
+        if (eID != -99) // Update estimodeID if the previous was not requested.
+        {
+            estimoteID = eID;
+        }
         foreach(Transform child in this.gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
@@ -40,7 +46,7 @@ public class QuestionPanel : MonoBehaviour
             language = PlayerPrefs.GetString("language");
         }
         //localDB = new DBConnector();
-        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
+        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs(eID);
         listSize = FAQs.Count;
 
 
@@ -69,10 +75,10 @@ public class QuestionPanel : MonoBehaviour
         }
     }
 
-	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
+	public List<QuestionAnswerPair> SelectQuestionAnswerPairs(int eID)
 	{
 		
-		string sql = "select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != -1 LIMIT 50";
+		string sql = string.Format("select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != {0} LIMIT 50", eID);
 		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair>(sql);
 		
 		return pair_list;
