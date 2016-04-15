@@ -16,7 +16,8 @@ public class ImagePanel : MonoBehaviour
     public GameObject containerRect;
     public GameObject MoreInfoImagePanel;
     public SimpleSQL.SimpleSQLManager dbManager;
-    
+    private bool _isInstantiated;
+
     private int listSize;
     private GridLayoutGroup imageGrid;
     private RectTransform imageRect;
@@ -32,7 +33,9 @@ public class ImagePanel : MonoBehaviour
     void Start()
     {
         int estimoteID = 1; ////////////////////// This should auto update with location changes
+        _isInstantiated = false;
         loadImages(estimoteID);
+        _isInstantiated = true;
     }
     public void loadImages(int estimoteID)
     { 
@@ -62,15 +65,16 @@ public class ImagePanel : MonoBehaviour
 
 
         //MoreInfoImagePanel = GameObject.Find("MoreInfoImagePanel Need to dynamically find this gameobject eventually.
+        if (!_isInstantiated)
+        {
+            //Create display list
+            imageGrid = containerRect.GetComponent<GridLayoutGroup>();
+            imageRect = containerRect.GetComponent<RectTransform>();
 
-        //Create display list
-        imageGrid = containerRect.GetComponent<GridLayoutGroup>();
-        imageRect = containerRect.GetComponent<RectTransform>();
-
-        imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
-        imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x * 2, imageRect.sizeDelta.y);
-        imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
-
+            imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
+            imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x * 2, imageRect.sizeDelta.y);
+            imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
+        }
 
         foreach (ImageStorage storage in image_storage)
         {
