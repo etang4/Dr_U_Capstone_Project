@@ -68,7 +68,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         {
             PlayerPrefs.SetString("language", "English");
         }
-        _questionPanel.GetComponent<QuestionPanel>().loadFAQs();
+        _questionPanel.GetComponent<QuestionPanel>().loadFAQs(-99);
 
         //TODO: Need to change all UI text here!
         _badgesButton.transform.GetChild(0).GetComponent<Text>().text = "Badges";
@@ -100,7 +100,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         {
             PlayerPrefs.SetString("language", "Espanol");
         }
-        _questionPanel.GetComponent<QuestionPanel>().loadFAQs();
+        _questionPanel.GetComponent<QuestionPanel>().loadFAQs(-99);
         //TODO: Need to change all UI text here!
         _badgesButton.transform.GetChild(0).GetComponent<Text>().text = "Distintivos";
         //_badgesPanel = GameObject.Find("BadgesPanel");

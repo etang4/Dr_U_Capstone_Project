@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 
 public class InputSmoother {
-	private const int DISCONNECTION_THRESHOLD = 5;
+	private const int DISCONNECTION_THRESHOLD = 0;
+	public const int DEFAULT_WINDOW_SIZE = 20;
 
 	private Beacon beacon;
 	private Queue<uint> window = new Queue<uint>();
@@ -10,19 +11,32 @@ public class InputSmoother {
 	private uint current_sum = 0;
 	private bool is_connected = true;
 	
-	public InputSmoother(Beacon beacon, uint window_size)
+	public InputSmoother(Beacon beacon)
 	{
-		this.beacon = beacon;
-		this.window_size = window_size;
+		this.window_size = DEFAULT_WINDOW_SIZE;
 		
-		Update();
+		Update(beacon);
 	}
 	
-	public void Update()
+	public InputSmoother(Beacon beacon, uint window_size)
 	{
-		uint beacon_strength = (uint) beacon.strength;
-		// TODO TEMP
-		Debug.Log("[" + beacon.ToString() + "] direct strength = " + beacon_strength.ToString());
+		this.window_size = window_size;
+		
+		Update(beacon);
+	}
+	
+	public void UpdateEmpty()
+	{
+		beacon.range = (BeaconRange) 0;
+		Update(beacon);
+	}
+	
+	public void Update(Beacon new_beacon_info)
+	{
+		beacon = new_beacon_info;
+		
+		uint beacon_strength = (uint) beacon.range;
+		Debug.Log("[" + beacon.UUID + "] beacon raw strength = " + beacon_strength.ToString());
 		
 		// add the new signal strength value to the window
 		window.Enqueue(beacon_strength);
@@ -32,19 +46,13 @@ public class InputSmoother {
 		{
 			current_sum -= window.Dequeue();
 			// if the window is full and connection is very weak, discard the connection
-			if (GetSignalStrength() < DISCONNECTION_THRESHOLD)
+			if (GetSignalStrength() <= DISCONNECTION_THRESHOLD)
 			{
 				is_connected = false;
 			}
 		}
 		
-		// TODO TEMP
-		Debug.Log("[" + beacon.ToString() + "] smoothed strength = " + GetSignalStrength().ToString() + " (size=" + window.Count + ")");
-	}
-
-	public InputSmoother(Beacon beacon)
-	{
-		this.beacon = beacon;
+		Debug.Log("[" + beacon.UUID + "] beacon smoothed strength = " + GetSignalStrength().ToString() + " (size=" + window.Count + ")");
 	}
 	
 	public Beacon GetBeacon()
@@ -57,8 +65,8 @@ public class InputSmoother {
 		return is_connected;
 	}
 	
-	public uint GetSignalStrength()
+	public float GetSignalStrength()
 	{
-		return (uint) (current_sum / window.Count);
+		return ((float) current_sum) / ((float) window.Count);
 	}
 }

@@ -76,6 +76,7 @@ public class ImagePanel : MonoBehaviour
             imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
         }
 
+
         foreach (ImageStorage storage in image_storage)
         {
 			Sprite image = storage.imageSprite;
