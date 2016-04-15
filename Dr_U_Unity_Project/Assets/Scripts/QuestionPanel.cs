@@ -60,18 +60,22 @@ public class QuestionPanel : MonoBehaviour
 
         foreach (QuestionAnswerPair pair in FAQs)
         {
-            GameObject newButton = Instantiate(originalButton);
-            FAQButton FAQ = newButton.GetComponent<FAQButton>();
-            FAQ.faqPair = pair;
-            if (language == "Espanol")
+            if (pair.question != "" || pair.question_es != "")      // Prune out empty returns
             {
-                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
+                Debug.Log(pair.answer);
+                GameObject newButton = Instantiate(originalButton);
+                FAQButton FAQ = newButton.GetComponent<FAQButton>();
+                FAQ.faqPair = pair;
+                if (language == "Espanol")
+                {
+                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
+                }
+                else
+                {
+                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
+                }
+                newButton.transform.SetParent(faqRect.transform);
             }
-            else
-            {
-                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
-            }
-            newButton.transform.SetParent(faqRect.transform);
         }
     }
 
