@@ -62,10 +62,10 @@ public class DBUpdate : MonoBehaviour {
 
 		// Uncomment the folowing pieces of code to test the CreateDatabase and UpdateDatabase functions
 
-		// For testing DBConnector.CreateDatabaseForFirstTime function
+		// For testing DBConnector.CreateDatabaseForFirstTime function - uncomment to test
 		//PlayerPrefs.DeleteKey("db_exists");
 
-		// For testing DBConnector.UpdateLocalDatabase function
+		// For testing DBConnector.UpdateLocalDatabase function - uncomment to test
 		/*var oldDate = new System.DateTime(2016, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 		var oldDateString = DBConnector.ConvertDateTimeToBinaryString(oldDate);
 		PlayerPrefs.SetString("db_date", oldDateString);
@@ -75,14 +75,31 @@ public class DBUpdate : MonoBehaviour {
 	// This method will update the local databse with the information from the remote MySQL database
 	public static void UpdateLocalDatabase(SimpleSQL.SimpleSQLManager dbManager)
 	{
-		
-		//Get the information from the web API
-		var questions = APIConnector.GetQuestions();
-		var answers = APIConnector.GetAnswers();
-		var estimotes = APIConnector.GetEstimotes();
-		var exhibits = APIConnector.GetExhibits();
-		
+
 		//Delete current information
+		DeleteAllCurrentData(dbManager);
+
+		// Download data from remote MySQL database
+		GetNewDataFromRemoteDatabase(dbManager);
+	}
+	
+	// This method is for setting a baseline for the local database. This should only be called on fresh installs once.
+	public static void CreateDatabaseForFirstTime(SimpleSQL.SimpleSQLManager dbManager)
+	{
+		// Drop all tables if they exist
+		DropAllTablesIfExist(dbManager);
+		
+		// Recreate tables for a baseline
+		CreateAllTablesForBaseline(dbManager);
+
+		// Download data from remote MySQL database
+		GetNewDataFromRemoteDatabase(dbManager);
+		
+		// TODO: Set defaults for scoring system
+	}
+
+	public static void DeleteAllCurrentData(SimpleSQL.SimpleSQLManager dbManager) 
+	{
 		var sql_delete_question = "DELETE FROM Question";
 		var sql_delete_answer = "DELETE FROM Answer";
 		var sql_delete_estimote = "DELETE FROM Estimote";
@@ -92,18 +109,25 @@ public class DBUpdate : MonoBehaviour {
 		dbManager.Execute (sql_delete_estimote);
 		dbManager.Execute (sql_delete_exhibit);
 		dbManager.Execute (sql_delete_question);
+	}
+
+	public static void GetNewDataFromRemoteDatabase(SimpleSQL.SimpleSQLManager dbManager) 
+	{
+		// Get the information from the web API
+		var questions = APIConnector.GetQuestions();
+		var answers = APIConnector.GetAnswers();
+		var estimotes = APIConnector.GetEstimotes();
+		var exhibits = APIConnector.GetExhibits();
 		
-		//Insert new information from the web API
+		// Insert information from the web API
 		dbManager.InsertAll(questions);
 		dbManager.InsertAll(answers);
 		dbManager.InsertAll(estimotes);
 		dbManager.InsertAll(exhibits);
 	}
-	
-	// This method is for setting a baseline for the local database. This should only be called on fresh installs once.
-	public static void CreateDatabaseForFirstTime(SimpleSQL.SimpleSQLManager dbManager)
+
+	public static void DropAllTablesIfExist(SimpleSQL.SimpleSQLManager dbManager)
 	{
-		// Drop all tables if they exist
 		var sql_drop_answer = "DROP TABLE IF EXISTS Answer";
 		var sql_drop_badge = "DROP TABLE IF EXISTS Badge";
 		var sql_drop_estimote = "DROP TABLE IF EXISTS Estimote";
@@ -118,14 +142,15 @@ public class DBUpdate : MonoBehaviour {
 		dbManager.Execute (sql_drop_badge);
 		dbManager.Execute (sql_drop_estimote);
 		dbManager.Execute (sql_drop_exhibit);
-		dbManager.Execute (sql_drop_estimote);
 		dbManager.Execute (sql_drop_question);
 		dbManager.Execute (sql_drop_score);
 		dbManager.Execute (sql_drop_scorecounter);
 		dbManager.Execute (sql_drop_unlock);
 		dbManager.Execute (sql_drop_upgrade);
-		
-		// Recreate tables for a baseline
+	}
+
+	public static void CreateAllTablesForBaseline(SimpleSQL.SimpleSQLManager dbManager)
+	{
 		dbManager.CreateTable<Answer>();
 		dbManager.CreateTable<Badge>();
 		dbManager.CreateTable<Estimote>();
@@ -135,20 +160,6 @@ public class DBUpdate : MonoBehaviour {
 		dbManager.CreateTable<ScoreCounter>();
 		dbManager.CreateTable<Unlock>();
 		dbManager.CreateTable<Upgrade>();
-		
-		// Get the information from the web API
-		var questions = APIConnector.GetQuestions();
-		var answers = APIConnector.GetAnswers();
-		var estimotes = APIConnector.GetEstimotes();
-		var exhibits = APIConnector.GetExhibits();
-		
-		// Insert information from the web API
-		dbManager.InsertAll(questions);
-		dbManager.InsertAll(answers);
-		dbManager.InsertAll(estimotes);
-		dbManager.InsertAll(exhibits);
-		
-		// TODO: Set defaults for scoring system
 	}
 	
 	public static double GetDBTimeDifference(System.DateTime currentDate, System.DateTime db_date) 
