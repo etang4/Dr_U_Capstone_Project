@@ -16,23 +16,20 @@ public class QuestionPanel : MonoBehaviour
     private RectTransform faqRect;
 	//private DBConnector localDB;
 	private string language;
-    private int estimoteID;
+    private bool _isInstantiated;
 
     // Use this for initialization
     void Start()
     {
-        // TODO TEMP
-        estimoteID = 1; // TEMP SOLUTION
+		// TODO TEMP
 		Debug.Log("starting QuestionPanel...");
-        loadFAQs(estimoteID);
+        _isInstantiated = false;
+        loadFAQs();
+        _isInstantiated = true;
     }
 
-	public void loadFAQs(int eID)
+	public void loadFAQs()
     {
-        if (eID != -99) // Update estimodeID if the previous was not requested.
-        {
-            estimoteID = eID;
-        }
         foreach(Transform child in this.gameObject.transform)
         {
             GameObject.Destroy(child.gameObject);
@@ -46,43 +43,41 @@ public class QuestionPanel : MonoBehaviour
             language = PlayerPrefs.GetString("language");
         }
         //localDB = new DBConnector();
-        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs(eID);
+        List<QuestionAnswerPair> FAQs = SelectQuestionAnswerPairs();
         listSize = FAQs.Count;
 
+        if (!_isInstantiated)
+        {
+            faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+            faqRect = containerRect.GetComponent<RectTransform>();
+            faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
+            faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
+            // +4 does not work for large data sets, this needs to be reconfigured
 
-        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
-        faqRect = containerRect.GetComponent<RectTransform>();
-        faqGrid.cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width, faqRect.rect.height / 7);
-        faqRect.sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize + 4));
-        // +4 does not work for large data sets, this needs to be reconfigured
-
-        faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+            faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
+        }
 
         foreach (QuestionAnswerPair pair in FAQs)
         {
-            if (pair.question != "" || pair.question_es != "")      // Prune out empty returns
+            GameObject newButton = Instantiate(originalButton);
+            FAQButton FAQ = newButton.GetComponent<FAQButton>();
+            FAQ.faqPair = pair;
+            if (language == "Espanol")
             {
-                Debug.Log(pair.answer);
-                GameObject newButton = Instantiate(originalButton);
-                FAQButton FAQ = newButton.GetComponent<FAQButton>();
-                FAQ.faqPair = pair;
-                if (language == "Espanol")
-                {
-                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
-                }
-                else
-                {
-                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
-                }
-                newButton.transform.SetParent(faqRect.transform);
+                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
             }
+            else
+            {
+                newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
+            }
+            newButton.transform.SetParent(faqRect.transform);
         }
     }
 
-	public List<QuestionAnswerPair> SelectQuestionAnswerPairs(int eID)
+	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
 	{
 		
-		string sql = string.Format("select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != {0} LIMIT 50", eID);
+		string sql = "select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != -1 LIMIT 50";
 		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair>(sql);
 		
 		return pair_list;
