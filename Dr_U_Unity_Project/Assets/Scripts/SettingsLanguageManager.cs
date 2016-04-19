@@ -2,8 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+    This class handles the language settings for the GUI.
+*/
 public class SettingsLanguageManager : MonoBehaviour {
 
+    //These are the list of UI gameobjects in the app.
     private GameObject _badgesButton;
     private GameObject _badgesPanel;
     private GameObject _faqTitle;
@@ -25,6 +29,7 @@ public class SettingsLanguageManager : MonoBehaviour {
 	
     //Makes sure this is ran before all Start()
 	void Awake () {
+        //Default language (English) is set here.
         PlayerPrefs.SetString("language", "English");
     }
 
@@ -62,6 +67,7 @@ public class SettingsLanguageManager : MonoBehaviour {
 	
 	}
 
+    //Changes UI to English
     public void setEnglish()
     {
         if (PlayerPrefs.GetString("language") != "English")
@@ -94,6 +100,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         //_upgradesPanel = GameObject.Find("UpgradesPanel");
     }
 
+    //Change UI to Spanish
     public void setSpanish()
     {
         if (PlayerPrefs.GetString("language") != "Espanol")

@@ -5,17 +5,22 @@ using System;
 using System.IO;
 using SimpleSQL;
 
-
-
-
 using UnityEngine.UI;
 
+/*
+    ImagePanel handles Image results, language and the dynamic sizing of 
+    the Images.
+*/
 public class ImagePanel : MonoBehaviour
 {
-    private Sprite[] SetImages;     // This will be replaced with a database call
-    public GameObject containerRect;
+    //GUI Area which the images are stored  
+    private GameObject containerRect;
+    //Gameobject that displays the information of the image.
+    //Attach MoreInfoImagePanel Prefab here.
     public GameObject MoreInfoImagePanel;
+    //Database Manager from SimpleSQL Plugin.
     public SimpleSQL.SimpleSQLManager dbManager;
+    //Make sure Images stay the same size.
     private bool _isInstantiated;
 
     private int listSize;
@@ -23,6 +28,7 @@ public class ImagePanel : MonoBehaviour
     private RectTransform imageRect;
     private string image_path;
 
+    //class that stores image info and sprite.
     private class ImageStorage
     {
         public ImagePair imageInfo;
@@ -32,6 +38,7 @@ public class ImagePanel : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        containerRect = this.gameObject;
         int estimoteID = 1; ////////////////////// This should auto update with location changes
         _isInstantiated = false;
         loadImages(estimoteID);
@@ -72,11 +79,12 @@ public class ImagePanel : MonoBehaviour
             imageRect = containerRect.GetComponent<RectTransform>();
 
             imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
-            imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x * 2, imageRect.sizeDelta.y);
             imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
         }
+        //Adjusting area of where images are stored depending on number of images.
+        imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x * 2, imageRect.sizeDelta.y);
 
-
+        //Creating and storing images in the image panel.
         foreach (ImageStorage storage in image_storage)
         {
 			Sprite image = storage.imageSprite;
@@ -100,6 +108,8 @@ public class ImagePanel : MonoBehaviour
        MoreInfoImagePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = currentInfo;
        MoreInfoImagePanel.SetActive(true);
     }
+
+    //Database query for selecting images and their information.
     public List<ImagePair> SelectImagePairs(int estimoteID)
     {
         string sql = string.Format("select `name`, `intro`, `information`, `image`, `exhibitID` from Exhibit WHERE estimoteID == {0} LIMIT 50", estimoteID);
@@ -107,6 +117,7 @@ public class ImagePanel : MonoBehaviour
         return image_list;
     }
 
+    //To download images from the public database.
     private void downloadImages(List<ImagePair> imageList)
     {
         DirectoryInfo dir = new DirectoryInfo(image_path);
@@ -148,6 +159,7 @@ public class ImagePanel : MonoBehaviour
         }
     }
 
+    //Retrieving the image from the database.
     private Sprite getImage(ImagePair image)
     {
         DirectoryInfo dir = new DirectoryInfo(image_path);

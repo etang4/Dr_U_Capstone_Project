@@ -4,6 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+/*
+    This class handles the search results and dynamically generates
+    result buttons.
+*/
 public class QuestionPanelExpandedFilter : MonoBehaviour
 {
     public GameObject originalButton;
@@ -36,7 +40,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         foreach(GameObject item in itemsList){
             Destroy(item);
         }
-
+        itemsList = new GameObject[searchResults.Count];
         listSize = searchResults.Count;
 
         //TODO: Cannot test if this works until search is implemented
@@ -45,12 +49,15 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             faqGrid = containerRect.GetComponent<GridLayoutGroup>();
             faqRect = containerRect.GetComponent<RectTransform>();
             faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
-            faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
-            // +4 does not work for large data sets, this needs to be reconfigured
+            
 
             faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         }
+        //TODO: // +4 does not work for large data sets, this needs to be reconfigured
+        //Adjusting area of where results can be placed.
+        faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
 
+        //Create Result UI Button for each result
         foreach (KeyValuePair<string, string> answer in searchResults)
         {
             GameObject newButton = Instantiate(originalButton);
@@ -76,13 +83,14 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     }
 
 
-
+    //TODO: Fake Search, remove when Lucene Search is implemented
     private Dictionary<string, string> fakeSearch(string input, int id)
     {
         Dictionary<string, string> dict = new Dictionary<string, string>();
         dict.Add("test", "Works");
         dict.Add("fail", "Fails");
         Dictionary<string, string> results = new Dictionary<string, string>();
+
         foreach (string word in input.Split())
         {
             if (dict.ContainsKey(word.ToLower()))

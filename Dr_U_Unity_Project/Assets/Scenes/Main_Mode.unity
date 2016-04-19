@@ -365,10 +365,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 948756242}
   m_RootOrder: 0
-  m_AnchorMin: {x: .266000003, y: .569771886}
-  m_AnchorMax: {x: .731165767, y: .980000019}
-  m_AnchoredPosition: {x: 1.29999924, y: 1.5}
-  m_SizeDelta: {x: -3, y: -1}
+  m_AnchorMin: {x: .266000003, y: .572658956}
+  m_AnchorMax: {x: .699000061, y: .980000019}
+  m_AnchoredPosition: {x: .5, y: 1}
+  m_SizeDelta: {x: -5, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &66649625
 MonoBehaviour:
@@ -1641,7 +1641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &346476665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2492,7 +2492,6 @@ GameObject:
   - 222: {fileID: 507929725}
   - 114: {fileID: 507929724}
   - 114: {fileID: 507929723}
-  - 114: {fileID: 507929726}
   m_Layer: 5
   m_Name: SearchBar
   m_TagString: Untagged
@@ -2622,17 +2621,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507929721}
---- !u!114 &507929726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 507929721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ad8091c52b47b4cb36c0129761b8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &513447587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4189,8 +4177,8 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -.102285743, y: -18.484478}
-  m_SizeDelta: {x: -13.0553894, y: -126.618996}
+  m_AnchoredPosition: {x: -.102285743, y: -10.0340004}
+  m_SizeDelta: {x: -13, y: -109.720001}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &948756243
 MonoBehaviour:
@@ -7038,7 +7026,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275044da3685bad46bac77f10c40599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerRect: {fileID: 1659777175}
   MoreInfoImagePanel: {fileID: 948756241}
   dbManager: {fileID: 95841703}
 --- !u!1 &1672943249
@@ -8630,8 +8617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cad5820e78131f46925895b0ea7f3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalButton: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
-  containerRect: {fileID: 2007765976}
+  originalFAQ: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
   dbManager: {fileID: 95841703}
 --- !u!114 &2007765981
 MonoBehaviour:
@@ -9085,10 +9071,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 423871573}
   m_RootOrder: 1
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: .731588483}
+  m_AnchoredPosition: {x: .500320435, y: -.471000671}
+  m_SizeDelta: {x: 0, y: -1.05999756}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2136080052
 MonoBehaviour:
