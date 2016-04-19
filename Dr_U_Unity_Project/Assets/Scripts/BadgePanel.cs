@@ -12,61 +12,16 @@ public class BadgePanel : MonoBehaviour
 	public GameObject MoreInfoImagePanel;
 	public GameObject[] badgeList;
 	
-	public static int questionCounter;
-	public static int stumpedCounter;
-	public static int drUSavedCounter;
-	public static int spaceshipLandedCounter;
 	
-	public const int drUSavedScore = 50;
-	public const int spaceshipLandedScore = 100;
-	
-	public ResourceCounter resourceCounter;
-	
-	
-	public static void addQuestionAsked(int num) {
-		questionCounter += num;
-	}
-	
-	public static int getQuestionCounter() {
-		return questionCounter;
-	}
-	
-	public static void addStumped(int num) {
-		stumpedCounter += num;
-	}
-	
-	public static int getStumpedCounter() {
-		return stumpedCounter;
-	}
-	
-	public static void addDrUSaved(int num) {
-		drUSavedCounter += num;
-	}
-	
-	public static int getDrUSavedCounter() {
-		return drUSavedCounter;
-	}
-	
-	public static void addSpaceShipLanded(int num) {
-		spaceshipLandedCounter += num;
-	}
-	
-	public static int getSpaceShipLandedCounter() {
-		return spaceshipLandedCounter;
-	}
-	
-	// Applies upgrades to get actual score at which Dr U is saved
-	public static int getDrUSavedScore() {
-		int score = drUSavedScore;
-		score += UpgradePanel.getDrUUpgrade1 ();
-		return score;
-	}
 	
 	// Use this for initialization
 	void Start()
 	{
 		//MoreInfoImagePanel = GameObject.Find("MoreInfoImagePanel Need to dynamically find this gameobject eventually.
 		Debug.Log(MoreInfoImagePanel);
+		
+		defineBadges ();
+		
 		
 		//Create display list
 		containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width / 5,
@@ -90,6 +45,11 @@ public class BadgePanel : MonoBehaviour
 			itemsList[i] = newImage;
 			newImage.transform.parent = this.transform;
 		}
+	}
+	
+	void defineBadges ()
+	{
+		throw new System.NotImplementedException ();
 	}
 	
 	//Event called onClick.
