@@ -4,6 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+/*
+    This class handles the search results and dynamically generates
+    result buttons.
+*/
 public class QuestionPanelExpandedFilter : MonoBehaviour
 {
     public GameObject originalButton;
@@ -47,7 +51,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
             faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
             // +4 does not work for large data sets, this needs to be reconfigured
-
+            //Adjusting area of where results can be placed.
             faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         }
 
@@ -56,9 +60,12 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             GameObject newButton = Instantiate(originalButton);
             itemsList[x] = newButton;
             FAQButton FAQ = newButton.GetComponent<FAQButton>();
-            FAQ.question = answer.Key;
-            FAQ.answer = answer.Value;
-            newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
+            QuestionAnswerPair newQAPair = new QuestionAnswerPair();
+            // Assign spanish or english answers here
+            newQAPair.question = answer.Key;
+            newQAPair.answer = answer.Value;
+            FAQ.faqPair = newQAPair;
+            newButton.transform.GetChild(0).GetComponent<Text>().text = newQAPair.question;
 
             newButton.transform.parent = this.transform;
             x++;
@@ -76,7 +83,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     }
 
 
-
+    //TODO: Fake Search, remove when Lucene Search is implemented
     private Dictionary<string, string> fakeSearch(string input, int id)
     {
         Dictionary<string, string> dict = new Dictionary<string, string>();

@@ -5,17 +5,29 @@ using System;
 using System.IO;
 using SimpleSQL;
 
-
-
-
 using UnityEngine.UI;
 
+/*
+    ImagePanel handles Image results, language and the dynamic sizing of 
+    the Images.
+
+	 So, the goal here is to only ever download an image once. 
+	 We do this by first using the database to get all of the associated image names.
+	 Then we use those namse and see if we have them locally on the device.
+	 If not, we download them and store them onto the device.
+	 Then we create a new object with the image information (from the database) and image data (from the local storage)
+	 We then use that object to set the images in the carousel.
+ */
 public class ImagePanel : MonoBehaviour
 {
-    private Sprite[] SetImages;     // This will be replaced with a database call
+    //GUI Area which the images are stored  
     public GameObject containerRect;
+    //Gameobject that displays the information of the image.
+    //Attach MoreInfoImagePanel Prefab here.
     public GameObject MoreInfoImagePanel;
+    //Database Manager from SimpleSQL Plugin.
     public SimpleSQL.SimpleSQLManager dbManager;
+    //Make sure Images stay the same size.
     private bool _isInstantiated;
 
     private int listSize;
@@ -23,6 +35,7 @@ public class ImagePanel : MonoBehaviour
     private RectTransform imageRect;
     private string image_path;
 
+    //class that stores image info and sprite.
     private class ImageStorage
     {
         public ImagePair imageInfo;
@@ -30,36 +43,52 @@ public class ImagePanel : MonoBehaviour
     }
 
     // Use this for initialization
+
     void Start()
     {
-        int estimoteID = 1; ////////////////////// This should auto update with location changes
-        _isInstantiated = false;
-        loadImages(estimoteID);
-        _isInstantiated = true;
+        Debug.Log("starting ImagePanel...");
+        loadImages(1);
+        InputSmootherHelper.ClosestBeaconChangedEvent += triggerChange;
     }
-    public void loadImages(int estimoteID)
-    { 
+    public void triggerChange(HashSet<Beacon> new_closest, HashSet<Beacon> old_closest)
+    {
+        int estimoteID = -1;
+        foreach (Beacon beacon in new_closest)  // Update estimote ID by using major and minor
+        {
+            //beacon.minor = 36901;       // TEST CODE
+            //beacon.major = 60773;       // TEST CODE
+            string sql = string.Format("select `estimoteID` from Estimote WHERE major == {0} AND minor = {1} LIMIT 1", beacon.major, beacon.minor);
+            estimoteID = dbManager.Query<int>(sql)[0];
+
+        }
+        loadImages(estimoteID);
+    }
+
+    public void loadImages(int eID)
+    {
 
         image_path = Application.persistentDataPath + "/";  // Set storage path
 
-        List<ImagePair> image_list = SelectImagePairs(estimoteID);  // Grab image data from DB
+        List<ImagePair> image_list = SelectImagePairs(eID);  // Grab image data from DB
         downloadImages(image_list);     // Download missing immages
 
         List<ImageStorage> image_storage = new List<ImageStorage>();
         foreach (ImagePair image_info in image_list)    // Make image object with all info
         {
-			// Try catch block to ignore broken images
-			try
+            // Try catch block to ignore broken images
+            try
             {
-				ImageStorage newImage = new ImageStorage();
-				newImage.imageInfo = image_info;
-				newImage.imageSprite = getImage(image_info);
-				image_storage.Add(newImage);
-			}catch(Exception e){
-				Debug.Log(e);
-			}
+                ImageStorage newImage = new ImageStorage();
+                newImage.imageInfo = image_info;
+                newImage.imageSprite = getImage(image_info);
+                image_storage.Add(newImage);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
-        
+
         //Retrieves all images from Assets/Resources/Test_Images
         listSize = image_list.Count;
 
@@ -71,6 +100,7 @@ public class ImagePanel : MonoBehaviour
             imageGrid = containerRect.GetComponent<GridLayoutGroup>();
             imageRect = containerRect.GetComponent<RectTransform>();
 
+            //Size the rects and grid
             imageGrid.cellSize = new Vector2(imageRect.rect.height, imageRect.rect.height);
             imageRect.sizeDelta = new Vector2((imageGrid.cellSize.x + imageGrid.spacing.x) * (listSize - 2) - imageGrid.spacing.x * 2, imageRect.sizeDelta.y);
             imageRect.offsetMax = new Vector2(imageRect.offsetMax.x, 0);
@@ -79,27 +109,29 @@ public class ImagePanel : MonoBehaviour
 
         foreach (ImageStorage storage in image_storage)
         {
-			Sprite image = storage.imageSprite;
-			//Instantiates buttons from image array.
-			GameObject newImage = new GameObject(storage.imageSprite.name);
-			Image imageUI = newImage.AddComponent<Image>();
-			imageUI.sprite = image;
-			Button imageButton = newImage.AddComponent<Button>();
-			imageButton.targetGraphic = imageUI;
+            Sprite image = storage.imageSprite;
+            //Instantiates buttons from image array.
+            GameObject newImage = new GameObject(storage.imageSprite.name);
+            Image imageUI = newImage.AddComponent<Image>();
+            imageUI.sprite = image;
+            Button imageButton = newImage.AddComponent<Button>();
+            imageButton.targetGraphic = imageUI;
             string currentInfo = storage.imageInfo.information; // Required to create temp variable or else each listener will be set to the last object in the callback
             imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI, currentInfo); });
-			//Sets newly created button to display list.
-			newImage.transform.SetParent(imageRect.transform);
+            //Sets newly created button to display list.
+            newImage.transform.SetParent(imageRect.transform);
         }
     }
 
     //Event called onClick.
     public void ActivateMoreInfoImagePanel(Image currentImg, String currentInfo) //Needs parameter at some point to determine what image/data to show
     {
-       MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
-       MoreInfoImagePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = currentInfo;
-       MoreInfoImagePanel.SetActive(true);
+        MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
+        MoreInfoImagePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = currentInfo;
+        MoreInfoImagePanel.SetActive(true);
     }
+
+    //Database query for selecting images and their information.
     public List<ImagePair> SelectImagePairs(int estimoteID)
     {
         string sql = string.Format("select `name`, `intro`, `information`, `image`, `exhibitID` from Exhibit WHERE estimoteID == {0} LIMIT 50", estimoteID);
@@ -107,16 +139,18 @@ public class ImagePanel : MonoBehaviour
         return image_list;
     }
 
+    //To download images from the public database.
     private void downloadImages(List<ImagePair> imageList)
     {
         DirectoryInfo dir = new DirectoryInfo(image_path);
 
         FileInfo[] info = dir.GetFiles("*.*");      // Grab all files in storage
-        
+
         HashSet<string> allImageNames = new HashSet<string>();
-        foreach(FileInfo f in info){
+        foreach (FileInfo f in info)
+        {
             allImageNames.Add(f.Name);  // Add their names to a hashset
-            
+
         }
         // Get image name here
         List<string> imageNames = new List<string>();
@@ -125,10 +159,12 @@ public class ImagePanel : MonoBehaviour
         {
             imageNames.Add(pair.image);
         }
-        
+
         // Check if image exists locally here
-        foreach (string imageName in imageNames){
-            if (allImageNames.Contains(imageName)){
+        foreach (string imageName in imageNames)
+        {
+            if (allImageNames.Contains(imageName))
+            {
                 return;  //Do not download if image already exists
             }
 
@@ -142,12 +178,15 @@ public class ImagePanel : MonoBehaviour
             try
             {
                 File.WriteAllBytes(fullPath, www.bytes);
-            }catch (ArgumentException e){
+            }
+            catch (ArgumentException e)
+            {
                 Debug.Log(e);
             }
         }
     }
 
+    //Retrieving the image from the database.
     private Sprite getImage(ImagePair image)
     {
         DirectoryInfo dir = new DirectoryInfo(image_path);

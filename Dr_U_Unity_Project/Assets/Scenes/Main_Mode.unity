@@ -1641,7 +1641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &346476665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8582,7 +8582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cad5820e78131f46925895b0ea7f3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalButton: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
+  originalFAQ: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
   containerRect: {fileID: 2007765976}
   dbManager: {fileID: 95841703}
 --- !u!114 &2007765981
