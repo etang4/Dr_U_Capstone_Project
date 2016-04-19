@@ -109,18 +109,19 @@ public class ResourceCounter : MonoBehaviour
 		PlayerPrefs.DeleteKey("experience");
 	}
 	
-	public static void addExperience(int amount) {
-		alert.SetActive(true);
-		alertText.text = amount.ToString();
-		addScore.Play("AddScore");
+	public static void addExperience(int amount, bool playAnimation) {
+        if (playAnimation)
+        {
+            alert.SetActive(true);
+            alertText.text = amount.ToString();
+            addScore.Play("AddScore");
+        }
 		experience += amount;
 		checkRankUp ();								// check if the player earned enough experience to level up
 	}
-	
-	public static void addRank(int amount) {
-		alert.SetActive(true);
-		alertText.text = amount.ToString();
-		addScore.Play("AddScore");
+
+    public static void addRank(int amount)
+    {
 		rank += amount;
 	}
 	
@@ -136,10 +137,10 @@ public class ResourceCounter : MonoBehaviour
 		questionsAsked += amount;
 		
 		if (questionsFound == 0) {			// If questionsFound = 0, then the search term returned no results, and thus Dr. U was stumped.					
-			addExperience(10);
+			addExperience(10, true);
 			addQuestionsStumped(1);	
 		} else if (questionsFound > 0)  {
-			addExperience(5);
+			addExperience(5, true);
 		}
 	}
 	
@@ -151,42 +152,42 @@ public class ResourceCounter : MonoBehaviour
 	public static void addFaqsClicked (int amount)
 	{
 		faqsClicked += amount;
-		addExperience(5);
+		addExperience(5, false);
 	}
 	
 	public static void addImagesClicked (int amount)
 	{
 		imagesClicked += 1;
-		addExperience(5);
+		addExperience(5, false);
 	}
 	
 	public static void addExhibitsVisited (int amount)
 	{
 		exhibitsVisited += amount;
-		addExperience(5);
+		addExperience(5, true);
 	}
 	
 	public static void addPlanetsLanded (int amount)
 	{
 		planetsLanded += amount;
-		addExperience(5);
+		addExperience(5, true);
 	}
 	
 	public static void addMysteriesInvestigated (int amount)
 	{
 		mysteriesInvestigated += amount;
-		addExperience(5);
+		addExperience(5, false);
 	}
 	
 	public static void addMysteriesSolved (int amount)
 	{
 		mysteriesSolved += amount;
-		addExperience(50);
+		addExperience(50, true);
 	}
 	
 	public static void addDrUSaved (int amount)
 	{
 		drUSaved += amount;
-		addExperience(100);
+		addExperience(100, true);
 	}
 }
