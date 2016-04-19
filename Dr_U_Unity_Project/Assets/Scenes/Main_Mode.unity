@@ -158,7 +158,6 @@ MonoBehaviour:
   containerRect: {fileID: 36467577}
   MoreInfoImagePanel: {fileID: 843686579}
   badgeList: []
-  resourceCounter: {fileID: 0}
 --- !u!114 &36467580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +311,6 @@ MonoBehaviour:
   - {fileID: 0}
   containerRect: {fileID: 41151767}
   SearchBarText: {fileID: 507929723}
-  resourceCounter: {fileID: 0}
 --- !u!114 &41151772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5078,8 +5076,9 @@ GameObject:
   - 224: {fileID: 1249055072}
   - 222: {fileID: 1249055074}
   - 114: {fileID: 1249055073}
+  - 114: {fileID: 1249055075}
   m_Layer: 5
-  m_Name: RankingText
+  m_Name: RankText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5140,6 +5139,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1249055071}
+--- !u!114 &1249055075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1249055071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838b465a9ca25a340b0fdad61ac603c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalFAQ: {fileID: 0}
+  containerRect: {fileID: 0}
+  dbManager: {fileID: 0}
 --- !u!1 &1254863298
 GameObject:
   m_ObjectHideFlags: 0
