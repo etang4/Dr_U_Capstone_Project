@@ -21,7 +21,7 @@ public class Response
 	public static string NoNet = "It appears we've lost contact with Houston. Please connect to the internet to download latest mission updates!";
 	public static string NoNet_es = "Parece que hemos perdido el contacto con Houston. Por favor, conectarse a Internet!";
 	
-	public static string NoQuestionEntered = "It looks like you tried to ask me a blank question. Make sure to enter your question in the field and then click the arrow to the right.";
+	public static string NoQuestionEntered = "It looks like you tried to ask me a blank question. Make sure to enter your question in the field and then click the search button to the right.";
 	public static string NoQuestionEntered_es = "Parece que se trat"+'\u00F3'+" de hacerme una pregunta en blanco. Aseg"+'\u00FA'+"rese de introducir su pregunta en el campo y haga clic en la flecha hacia la derecha.";
 	
 	public static string tierTwo = "If you were asking ";

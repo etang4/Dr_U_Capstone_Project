@@ -49,6 +49,10 @@ public class LuceneNetSearch : MonoBehaviour
 		UnityEngine.Debug.Log ("QUESTION:  " + response.question);
 		UnityEngine.Debug.Log ("ANSWER:  " + response.answer);
 
+		GameObject textGo = GameObject.Find ("QuestionAnswerText");
+		Text textCo = textGo.GetComponent<Text>();
+		textCo.text = "Answer: " + response.answer;
+
 	}
 
 	private static string PathCombineSimple (string path, string addition)
