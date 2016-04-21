@@ -158,7 +158,6 @@ MonoBehaviour:
   containerRect: {fileID: 36467577}
   MoreInfoImagePanel: {fileID: 843686579}
   badgeList: []
-  resourceCounter: {fileID: 0}
 --- !u!114 &36467580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4892,6 +4891,7 @@ GameObject:
   - 111: {fileID: 1227998366}
   - 114: {fileID: 1227998365}
   - 114: {fileID: 1227998367}
+  - 114: {fileID: 1227998368}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5008,6 +5008,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f593ae1d3674dcb975564cc917af7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1227998368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1227998360}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776fcd3d328dd43b0910a5905148c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbManager: {fileID: 0}
+  loadingText: {fileID: 0}
 --- !u!1 &1232754122
 GameObject:
   m_ObjectHideFlags: 0
@@ -8605,7 +8618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cad5820e78131f46925895b0ea7f3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalButton: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
+  originalFAQ: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
   containerRect: {fileID: 2007765976}
   dbManager: {fileID: 95841703}
 --- !u!114 &2007765981
