@@ -15,12 +15,15 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     private GridLayoutGroup faqGrid;
     private RectTransform faqRect;
 	public ResourceCounter resourceCounter;
+	private string language;
+	public SimpleSQL.SimpleSQLManager dbManager;
 
     // Use this for initialization
     void Start()
     {
         
-        SearchBarText.onEndEdit.AddListener(filterList);
+		language = PlayerPrefs.GetString("language", "English"); // Gets current language, if it's null then it sets it to English
+		SearchBarText.onEndEdit.AddListener(filterList);
         _isInstantiated = false;
         filterList(SearchBarText.text);         //Initial run
         _isInstantiated = true;
@@ -29,15 +32,19 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 
     public void filterList(string input)
     {
-        string result = input.ToLower();
+        
+		List<QuestionAnswerPair> searchResults = SelectQuestionAnswerPairs();
+		int resultCount;
+		/*string result = input.ToLower();
         Dictionary<string, string> searchResults = fakeSearch(result, 1);          //Update this to use real data
 
         int x = 0;
         foreach(GameObject item in itemsList){
             Destroy(item);
-        }
+        }*/
 
         listSize = searchResults.Count;
+		resultCount = searchResults.Count;
 
         //TODO: Cannot test if this works until search is implemented
         if (!_isInstantiated)
@@ -51,7 +58,32 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         }
 
-        foreach (KeyValuePair<string, string> answer in searchResults)
+		foreach (QuestionAnswerPair pair in searchResults)
+		{
+			GameObject newButton = Instantiate(originalButton);
+			FAQButton FAQ = newButton.GetComponent<FAQButton>();
+			FAQ.faqPair = pair;
+			if (language == "Espanol")
+			{
+				newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
+			}
+			else
+			{
+				newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
+			}
+			newButton.transform.SetParent(faqRect.transform);
+		}
+
+		BadgePanel.addQuestionAsked(1);
+		
+		if (resultCount == 0) {
+			ResourceCounter.addPoints(10);
+			BadgePanel.addStumped(1);
+		} else if (resultCount > 0)  {
+			ResourceCounter.addPoints(5);
+		}
+
+        /*foreach (KeyValuePair<string, string> answer in searchResults)
         {
             GameObject newButton = Instantiate(originalButton);
             itemsList[x] = newButton;
@@ -71,10 +103,18 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 			BadgePanel.addStumped(1);
 		} else if (x > 0)  {
 			ResourceCounter.addPoints(5);
-		}
+		}*/
 
     }
 
+	public List<QuestionAnswerPair> SelectQuestionAnswerPairs()
+	{
+		
+		string sql = "select `qID`, `question`, `question_es`, Answer.aiD, `answer`, `answer_es` from Question inner join Answer on Question.aID = Answer.aiD AND Question.qID != -1 LIMIT 50";
+		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair>(sql);
+		
+		return pair_list;
+	}
 
 
     private Dictionary<string, string> fakeSearch(string input, int id)
