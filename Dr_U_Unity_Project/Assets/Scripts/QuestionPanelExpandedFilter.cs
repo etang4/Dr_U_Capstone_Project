@@ -17,24 +17,39 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 	public ResourceCounter resourceCounter;
 	private string language;
 	public SimpleSQL.SimpleSQLManager dbManager;
+	private List<QuestionAnswerPair> searchResults;
+	private int resultCount;
 
     // Use this for initialization
     void Start()
     {
-        
-		language = PlayerPrefs.GetString("language", "English"); // Gets current language, if it's null then it sets it to English
-		SearchBarText.onEndEdit.AddListener(filterList);
-        _isInstantiated = false;
+		Debug.Log (gameObject.name);
+		if (PlayerPrefs.GetString("language") == null)
+		{
+			language = PlayerPrefs.GetString("language", "English");
+		}
+		else
+		{
+			language = PlayerPrefs.GetString("language");
+		}
+		_isInstantiated = false;
         filterList(SearchBarText.text);         //Initial run
         _isInstantiated = true;
     }
 
-
     public void filterList(string input)
     {
         
-		List<QuestionAnswerPair> searchResults = SelectQuestionAnswerPairs();
-		int resultCount;
+		if (searchResults == null) {
+			searchResults = SqliteFTSSearchNoFilter(input);
+			listSize = searchResults.Count;
+			resultCount = searchResults.Count;
+		} else {
+			searchResults.Clear();
+			searchResults = SqliteFTSSearchNoFilter(input);
+			listSize = searchResults.Count;
+			resultCount = searchResults.Count;
+		}
 		/*string result = input.ToLower();
         Dictionary<string, string> searchResults = fakeSearch(result, 1);          //Update this to use real data
 
@@ -42,9 +57,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         foreach(GameObject item in itemsList){
             Destroy(item);
         }*/
-
-        listSize = searchResults.Count;
-		resultCount = searchResults.Count;
+        
 
         //TODO: Cannot test if this works until search is implemented
         if (!_isInstantiated)
@@ -116,6 +129,30 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 		return pair_list;
 	}
 
+
+	public List<QuestionAnswerPair> SqliteFTSSearchNoFilter(string input) 
+	{
+		string sql_search_string_part_1;
+		string sql_search_string_part_2;
+		string sql_search_string_part_3;
+
+		//Remove any semi colons from the input string
+		input.Replace(";", string.Empty);
+
+		sql_search_string_part_1 = "select docid, question, question_es, Answer.aID, answer, answer_es from Question_search inner join Answer on Question_search.aID = Answer.aID AND Question_search.docid != -1 where Question_search match";
+		if (language == "English") {
+			sql_search_string_part_2 = "'question:" + input + "'";
+		} else {
+			sql_search_string_part_2 = "'question_es:" + input + "'";
+		}
+		sql_search_string_part_3 = "limit 50 offset 0";
+
+		string sql_search = sql_search_string_part_1 + sql_search_string_part_2 + sql_search_string_part_3;
+		List<QuestionAnswerPair> pair_list = dbManager.Query<QuestionAnswerPair> (sql_search);
+
+		return pair_list;
+
+	}
 
     private Dictionary<string, string> fakeSearch(string input, int id)
     {
