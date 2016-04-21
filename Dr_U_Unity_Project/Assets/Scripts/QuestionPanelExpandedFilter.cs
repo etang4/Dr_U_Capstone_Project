@@ -27,6 +27,8 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        faqGrid = containerRect.GetComponent<GridLayoutGroup>();
+        faqRect = containerRect.GetComponent<RectTransform>();
 		SearchBarText.onEndEdit.AddListener(filterList);
 		if (PlayerPrefs.GetString("language") == null)
 		{
@@ -62,14 +64,14 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 
         if (!_isInstantiated)
         {
-            faqGrid = containerRect.GetComponent<GridLayoutGroup>();
-            faqRect = containerRect.GetComponent<RectTransform>();
             faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
-            faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 4) - faqGrid.spacing.y * 4);
+            faqRect.offsetMax = new Vector2(faqRect.offsetMax.x, 0);
             // +4 does not work for large data sets, this needs to be reconfigured
-            //Adjusting area of where results can be placed.
-            faqRect.offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
         }
+        //Adjusting area where FAQs are stored depending on number of FAQs.
+        faqRect.sizeDelta = new Vector2(faqRect.sizeDelta.x, (faqGrid.cellSize.y + faqGrid.spacing.y) * (listSize - 3));
+        // Set position of scroll to very top
+        containerRect.GetComponentInParent<ScrollRect>().verticalNormalizedPosition = 1;
 		
 		if (searchResults.Count == 0){
             stumped = true;
@@ -86,25 +88,28 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         int numFound = 0;
 		foreach (QuestionAnswerPair pair in searchResults)
 		{
-			GameObject newButton = Instantiate(originalButton);
-            itemsList.Add(newButton);
-			FAQButton FAQ = newButton.GetComponent<FAQButton>();
-			QuestionAnswerPair newQAPair = new QuestionAnswerPair();
-			
-			if (language == "Espanol")
-			{
-				newQAPair.question = pair.question_es;
-				newQAPair.answer = pair.answer_es;
-			}
-			else
-			{
-				newQAPair.question = pair.question;
-				newQAPair.answer = pair.answer;
-			}
-			FAQ.faqPair = newQAPair;
-			newButton.transform.GetChild(0).GetComponent<Text>().text = newQAPair.question;
-            newButton.transform.SetParent(this.transform);
-            numFound++;
+            if (pair.question != "" || pair.question_es != "")      // Prune out empty returns
+            {
+                GameObject newButton = Instantiate(originalButton);
+                itemsList.Add(newButton);
+                FAQButton FAQ = newButton.GetComponent<FAQButton>();
+                QuestionAnswerPair newQAPair = new QuestionAnswerPair();
+
+                if (language == "Espanol")
+                {
+                    newQAPair.question = pair.question_es;
+                    newQAPair.answer = pair.answer_es;
+                }
+                else
+                {
+                    newQAPair.question = pair.question;
+                    newQAPair.answer = pair.answer;
+                }
+                FAQ.faqPair = newQAPair;
+                newButton.transform.GetChild(0).GetComponent<Text>().text = newQAPair.question;
+                newButton.transform.SetParent(this.transform);
+                numFound++;
+            }
 		}
 
 
