@@ -158,6 +158,7 @@ MonoBehaviour:
   containerRect: {fileID: 36467577}
   MoreInfoImagePanel: {fileID: 843686579}
   badgeList: []
+  resourceCounter: {fileID: 0}
 --- !u!114 &36467580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +312,8 @@ MonoBehaviour:
   - {fileID: 0}
   containerRect: {fileID: 41151767}
   SearchBarText: {fileID: 507929723}
+  resourceCounter: {fileID: 0}
+  dbManager: {fileID: 95841703}
 --- !u!114 &41151772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2063,6 +2066,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 41151771}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &415093885
@@ -2464,7 +2478,6 @@ GameObject:
   - 222: {fileID: 507929725}
   - 114: {fileID: 507929724}
   - 114: {fileID: 507929723}
-  - 114: {fileID: 507929726}
   m_Layer: 5
   m_Name: SearchBar
   m_TagString: Untagged
@@ -2594,17 +2607,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507929721}
---- !u!114 &507929726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 507929721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ad8091c52b47b4cb36c0129761b8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &513447587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4889,6 +4891,7 @@ GameObject:
   - 114: {fileID: 1227998362}
   - 111: {fileID: 1227998366}
   - 114: {fileID: 1227998365}
+  - 114: {fileID: 1227998367}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4994,6 +4997,17 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1227998367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1227998360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f593ae1d3674dcb975564cc917af7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1232754122
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,9 +5090,8 @@ GameObject:
   - 224: {fileID: 1249055072}
   - 222: {fileID: 1249055074}
   - 114: {fileID: 1249055073}
-  - 114: {fileID: 1249055075}
   m_Layer: 5
-  m_Name: RankText
+  m_Name: RankingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5139,17 +5152,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1249055071}
---- !u!114 &1249055075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1249055071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6f289741e9c9444a7de6f82595fb8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1254863298
 GameObject:
   m_ObjectHideFlags: 0
@@ -8105,7 +8107,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1904710084}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1227998367}
+        m_MethodName: SwitchLoadingScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1904710084
@@ -8592,7 +8605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cad5820e78131f46925895b0ea7f3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalFAQ: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
+  originalButton: {fileID: 132350, guid: 18b791e41b714d641966e14a3a01645b, type: 2}
   containerRect: {fileID: 2007765976}
   dbManager: {fileID: 95841703}
 --- !u!114 &2007765981

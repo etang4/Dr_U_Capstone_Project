@@ -39,8 +39,9 @@ public class QuestionPanel : MonoBehaviour
         // Assign globals.
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
         faqRect = containerRect.GetComponent<RectTransform>();
-
+        _isInstantiated = false;
         loadFAQs(-1);    // Start with beacon -1 (pull all info)
+        _isInstantiated = true;
         InputSmootherHelper.ClosestBeaconChangedEvent += triggerChange;
     }
 
@@ -89,7 +90,6 @@ public class QuestionPanel : MonoBehaviour
        */
         if (!_isInstantiated)
         {
-
             faqGrid.cellSize = new Vector2(faqRect.rect.width, faqRect.rect.height / 7);
             faqRect.offsetMax = new Vector2(faqRect.offsetMax.x, 0);
         }
