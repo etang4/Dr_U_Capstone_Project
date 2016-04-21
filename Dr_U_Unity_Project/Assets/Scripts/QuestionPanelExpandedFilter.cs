@@ -22,9 +22,11 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 	private string language;
 	public SimpleSQL.SimpleSQLManager dbManager;
 	private List<QuestionAnswerPair> searchResults;
-	private int resultCount;
+    public GameObject FAQPanel;
+    public GameObject FAQPanelExpanded;
 
-    // Use this for initialization
+
+    // Use this for initialization 
     void Start()
     {
         faqGrid = containerRect.GetComponent<GridLayoutGroup>();
@@ -44,18 +46,25 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         _isInstantiated = true;
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            FAQPanel.SetActive(true);
+            FAQPanelExpanded.SetActive(false);
+            SearchBarText.text = "";
+        }
+    }
+
     public void filterList(string input)
     {
-        
 		if (searchResults == null) {
 			searchResults = SqliteFTSSearchNoFilter(input);
 			listSize = searchResults.Count;
-			resultCount = searchResults.Count;
 		} else {
 			searchResults.Clear();
 			searchResults = SqliteFTSSearchNoFilter(input);
 			listSize = searchResults.Count;
-			resultCount = searchResults.Count;
 		}
 		foreach(GameObject item in itemsList){
 			Destroy(item);
@@ -91,23 +100,19 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             if (pair.question != "" || pair.question_es != "")      // Prune out empty returns
             {
                 GameObject newButton = Instantiate(originalButton);
-                itemsList.Add(newButton);
                 FAQButton FAQ = newButton.GetComponent<FAQButton>();
-                QuestionAnswerPair newQAPair = new QuestionAnswerPair();
+                FAQ.faqPair = pair;
 
+                //Determine which language to display
                 if (language == "Espanol")
                 {
-                    newQAPair.question = pair.question_es;
-                    newQAPair.answer = pair.answer_es;
+                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question_es;
                 }
                 else
                 {
-                    newQAPair.question = pair.question;
-                    newQAPair.answer = pair.answer;
+                    newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
                 }
-                FAQ.faqPair = newQAPair;
-                newButton.transform.GetChild(0).GetComponent<Text>().text = newQAPair.question;
-                newButton.transform.SetParent(this.transform);
+                newButton.transform.SetParent(faqRect.transform);
                 numFound++;
             }
 		}
