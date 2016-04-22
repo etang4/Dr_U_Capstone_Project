@@ -244,12 +244,14 @@ public class DBUpdate : MonoBehaviour {
 
 	public static void CreateIndexes(SimpleSQL.SimpleSQLManager dbManager)
 	{
+        /*
+         * Commented out for the moment because index creation seems to break on Android
 		var questionIndex = "CREATE INDEX Question_content ON Question(content_area)";
 		var answerIndex = "CREATE INDEX Answer_content ON Answer(content_area)";
 
-		//dbManager.Execute(questionIndex);
-		//dbManager.Execute(answerIndex);
-		
+		dbManager.Execute(questionIndex);
+		dbManager.Execute(answerIndex);
+         */		
 	}
 
 	public static void CreateSearchTable(SimpleSQL.SimpleSQLManager dbManager)

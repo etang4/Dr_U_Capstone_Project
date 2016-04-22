@@ -9,6 +9,7 @@ public class UpgradePanel : MonoBehaviour
 	public Sprite[] SetImages;
 	public GameObject containerRect;
     public GameObject UpgradesPanel;
+    public GameObject MoreInfoUpgradesPanel;
 	public GameObject MoreInfoUpgradePanel;
 
 	private static string[] upgrades = {						// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
@@ -85,10 +86,12 @@ public class UpgradePanel : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            UpgradesPanel.SetActive(false);
-        }
+        if (!MoreInfoUpgradePanel.activeSelf){
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UpgradesPanel.SetActive(false);
+            }
+    }
     }
 
     //Event called onClick.

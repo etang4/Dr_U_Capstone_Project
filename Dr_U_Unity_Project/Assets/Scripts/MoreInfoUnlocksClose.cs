@@ -2,7 +2,7 @@
 using System;
 
 
-public class SettingsPanelClose : MonoBehaviour
+public class MoreInfoUnlocksClose : MonoBehaviour
 {
 
     public GameObject MoreInfoUnlocksViewPanel;

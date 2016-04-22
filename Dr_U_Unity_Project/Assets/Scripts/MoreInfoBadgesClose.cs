@@ -2,7 +2,7 @@
 using System;
 
 
-public class SettingsPanelClose : MonoBehaviour
+public class MoreInfoBadgesClose : MonoBehaviour
 {
 
     public GameObject MoreInfoBadgesViewPanel;

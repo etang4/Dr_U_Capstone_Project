@@ -67,7 +67,7 @@ public class BadgePanel : MonoBehaviour
 	}
     void Update()
     {
-		checkBadges ();
+		checkBadges();
         if (Input.GetKey(KeyCode.Escape))
         {
             BadgesPanel.SetActive(false);

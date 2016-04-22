@@ -24,6 +24,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 	private List<QuestionAnswerPair> searchResults;
     public GameObject FAQPanel;
     public GameObject FAQPanelExpanded;
+    public GameObject ImagePanel;
 
 
     // Use this for initialization 
@@ -52,6 +53,7 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
         {
             FAQPanel.SetActive(true);
             FAQPanelExpanded.SetActive(false);
+            ImagePanel.SetActive(true);
             SearchBarText.text = "";
         }
     }
@@ -113,12 +115,13 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
                     newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.faqPair.question;
                 }
                 newButton.transform.SetParent(faqRect.transform);
+                itemsList.Add(newButton);
                 numFound++;
             }
 		}
 
 
-		ResourceCounter.addQuestionsAsked(1,stumped ? 0 : numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
+		addQuestionsAsked(1,stumped ? 0 : numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
         _isInstantiated = true;
 		
 	}
