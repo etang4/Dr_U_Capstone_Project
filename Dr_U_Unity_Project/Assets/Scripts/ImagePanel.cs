@@ -172,9 +172,10 @@ public class ImagePanel : MonoBehaviour
 	{
 		int imagesClicked = PlayerPrefs.GetInt("imagesClicked");
 		int experience = PlayerPrefs.GetInt ("experience");
+		int upgradesPurchased = PlayerPrefs.GetInt ("upgradesPurchased");
 
 		imagesClicked += amount;
-		experience += 5;
+		experience += 5 * upgradesPurchased;
 
 		PlayerPrefs.SetInt("experience", experience);
 		PlayerPrefs.SetInt("imagesClicked", imagesClicked);

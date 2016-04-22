@@ -16,6 +16,8 @@ public class EraseScores : MonoBehaviour {
 	private int mysteriesSolved { get; set; }
 	private int drUSaved { get; set; }
 	private int badgesCount { get; set; }
+	private int upgradePoints { get; set; }	// The amount of upgrades the player has earned. Increases each time the player gains rank or earns a badge.
+	private int upgradesPurchased { get; set; }			// The mount of upgrades the player has purchased. Doubles the EXP gained from every activity. Effects are cumulative.
 	private const int expToFirstRank = 25;
 
 	// Use this for initialization
@@ -39,6 +41,8 @@ public class EraseScores : MonoBehaviour {
 		mysteriesSolved = 0;
 		drUSaved = 0;
 		badgesCount = 0;
+		upgradePoints = 0;
+		upgradesPurchased = 1;  // Meeds to start at 1 or else players won't gain any experience
 
 		PlayerPrefs.SetInt("experience", experience);
 		PlayerPrefs.SetInt("rank", rank);
@@ -53,6 +57,8 @@ public class EraseScores : MonoBehaviour {
 		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
 		PlayerPrefs.SetInt("drUSaved", drUSaved);
 		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.SetInt ("upgradesPurchased", upgradesPurchased);
 		PlayerPrefs.Save();
 	}
 

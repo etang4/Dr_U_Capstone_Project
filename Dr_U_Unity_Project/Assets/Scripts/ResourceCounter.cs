@@ -42,6 +42,8 @@ public class ResourceCounter : MonoBehaviour
 	private int mysteriesSolved { get; set; }
 	private int drUSaved { get; set; }
 	private int badgesCount { get; set; }				// Number of badges that have been awarded due to questions asked. See BadgePanel.checkBadges to see how they are awarded. Indexes at 0.
+	private int upgradePoints { get; set; }			// The amount of upgrades the player has earned. Increases each time the player gains rank or earns a badge.
+	private int upgradesPurchased { get; set; }			// The mount of upgrades the player has purchased. Doubles the EXP gained from every activity. Effects are cumulative.
 
 	public static GameObject alert;
 	public static Text alertText;
@@ -91,11 +93,13 @@ public class ResourceCounter : MonoBehaviour
 		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
 		PlayerPrefs.SetInt("drUSaved", drUSaved);
 		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.SetInt ("upgradesPurchased", upgradesPurchased);
 		PlayerPrefs.Save();
 	}
 	
 	void OnApplicationQuit() {
-		PlayerPrefs.DeleteKey("experience");
+		saveScores ();
 	}
 	
 	private void addExperience(int amount) {
@@ -108,6 +112,7 @@ public class ResourceCounter : MonoBehaviour
     private void addRank(int amount)
     {
 		rank += amount;
+		upgradePoints += amount;
 	}
 	
 	private void checkRankUp ()

@@ -16,6 +16,8 @@ public class MaxOutScores : MonoBehaviour {
 	private int mysteriesSolved { get; set; }
 	private int drUSaved { get; set; }
 	private int badgesCount { get; set; }
+	private int upgradePoints { get; set; }	// The amount of upgrades the player has earned. Increases each time the player gains rank or earns a badge.
+	private int upgradesPurchased { get; set; }			// The mount of upgrades the player has purchased. Doubles the EXP gained from every activity. Effects are cumulative.
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +39,9 @@ public class MaxOutScores : MonoBehaviour {
 		mysteriesInvestigated = 100;
 		mysteriesSolved = 100;
 		drUSaved = 100;
-		badgesCount = 12;
+		badgesCount = 0;
+		upgradePoints = 11;
+		upgradesPurchased = 22;
 
 		PlayerPrefs.SetInt("experience", experience);
 		PlayerPrefs.SetInt("rank", rank);
@@ -52,6 +56,8 @@ public class MaxOutScores : MonoBehaviour {
 		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
 		PlayerPrefs.SetInt("drUSaved", drUSaved);
 		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.SetInt ("upgradesPurchased", upgradesPurchased);
 		PlayerPrefs.Save();
 	}
 	

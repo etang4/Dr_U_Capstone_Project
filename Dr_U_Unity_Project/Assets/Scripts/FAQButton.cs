@@ -73,9 +73,10 @@ public class FAQButton : MonoBehaviour {
 	{
 		int faqsClicked = PlayerPrefs.GetInt("faqsClicked");
 		int experience = PlayerPrefs.GetInt ("experience");
+		int upgradesPurchased = PlayerPrefs.GetInt ("upgradesPurchased");
 
 		faqsClicked += amount;
-		experience += 5;
+		experience += 5 * upgradesPurchased;
 
 		PlayerPrefs.SetInt("experience", experience);
 		PlayerPrefs.SetInt("faqsClicked", faqsClicked);

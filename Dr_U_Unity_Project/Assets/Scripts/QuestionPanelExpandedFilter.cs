@@ -119,9 +119,9 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
                 numFound++;
             }
 		}
+		numFound = stumped ? 0 : numFound;
 
-
-		addQuestionsAsked(1,stumped ? 0 : numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
+		addQuestionsAsked(1,numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
         _isInstantiated = true;
 		
 	}
@@ -166,11 +166,12 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 		int questionsAsked = PlayerPrefs.GetInt("questionsAsked");
 		int questionsStumped = PlayerPrefs.GetInt("questionsStumped");
 		int experience = PlayerPrefs.GetInt ("experience");
-		int experienceAdded = 5;
+		int upgradesPurchased = PlayerPrefs.GetInt ("upgradesPurchased");
+		int experienceAdded = 5 * upgradesPurchased;
 
 		if (questionsFound == 0) {			// If questionsFound = 0, then the search term returned no results, and thus Dr. U was stumped.		
 			questionsStumped += 1;	
-			experienceAdded = 10;
+			experienceAdded = 10 * upgradesPurchased;
 		}
 
 		questionsAsked += amount;

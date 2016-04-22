@@ -28,7 +28,7 @@ public class BadgePanel : MonoBehaviour
 		"Galaxy Badge: Earned for asking 60 questions", 
 	};	
 
-	public static int[] pointsNeeded = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60 };
+	public static int[] pointsNeeded = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 9999 }; // Make sure this is one item larger than your list in Unity or you'll have an array out of bounds exception
 	
 	// Use this for initialization
 	void Start()
@@ -53,9 +53,9 @@ public class BadgePanel : MonoBehaviour
 			imageButton.targetGraphic = imageUI;
 			var colors = imageButton.GetComponent<Button> ().colors;
 			colors.normalColor = Color.white;
-			colors.highlightedColor = Color.yellow;
-			colors.pressedColor = Color.cyan;
-			colors.disabledColor = Color.black;
+			colors.highlightedColor = Color.grey;
+			colors.pressedColor = Color.grey;
+			colors.disabledColor = Color.grey;
 			imageButton.GetComponent<Button> ().colors = colors;
 			imageButton.interactable = false;
 			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoBadgePanel(imageUI); });
@@ -88,19 +88,26 @@ public class BadgePanel : MonoBehaviour
 		int badgeCount = PlayerPrefs.GetInt ("badgesCount");
 		if (PlayerPrefs.GetInt ("questionsAsked") >= pointsNeeded [badgeCount]) {
 			itemsList [badgeCount].GetComponent<Button> ().interactable = true;
+			badgeCount++;
 		}
 		PlayerPrefs.SetInt ("badgesCount", badgeCount);
 		PlayerPrefs.Save();
 	}
 
 	// Sets the specified badge number to active in the Badges Panel, making the badge button clickable and normal color
+	// Also awards an upgrade point for earning the badge
 	public void awardNewBadge(int badge) {
 		itemsList [badge].GetComponent<Button>().interactable = true;
+		int upgradePoints = PlayerPrefs.GetInt("upgradePoints");
+		upgradePoints += 1;
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.Save();
+
 		//Image currentImg = itemsList [badge].GetComponent<Image> ();
 		//BadgesButton.setButtonColor ();
 	}
 
-	// Resets all badges to uninteractable
+	// Resets all badges to uninteractable - be aware that checkBadges() is constantly running in Update(), which may set badges back to interactable if the player has enough questions Asked
 	public void clearBadges() {
 		PlayerPrefs.SetInt ("badgesCount", 0);
 		for (int i = 0; i < badges.Length; i++) {

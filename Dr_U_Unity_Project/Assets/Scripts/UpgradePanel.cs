@@ -13,39 +13,13 @@ public class UpgradePanel : MonoBehaviour
 	public GameObject MoreInfoUpgradePanel;
 
 	private static string[] upgrades = {						// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
-		"Moon Badge: Earned for asking 1 question", 
-		"Sun Badge: Earned for asking 5 questions",
-		"Mercury Badge: Earned for asking 10 questions", 
-		"Venus Badge: Earned for asking 15 questions",
-		"Earth Badge: Earned for asking 20 questions",
-		"Mars Badge: Earned for asking 25 questions",
-		"Jupiter Badge: Earned for asking 30 questions", 
-		"Saturn Badge: Earned for asking 35 questions", 
-		"Uranus Badge: Earned for asking 40 questions", 
-		"Neptune Badge: Earned for asking 45 questions", 
-		"Pluto Badge: Earned for asking 50 questions", 
-		"Galaxy Badge: Earned for asking 60 questions", 
+		"Double your experience gained", 
+		"Double your experience gained",
+		"Double your experience gained", 
+		"Double your experience gained",
+		"Double your experience gained",
+		"Double your experience gained",
 	};	
-	
-	public const int drUUpgrade1 = 10;
-	public const int drUUpgrade2 = 20;
-	
-	public static bool drUUpgrade1IsActive = false;
-	public static bool drUUpgrade2IsActive = false;
-	
-	public static bool getDrUUpgrade1IsActive() 
-	{
-		return drUUpgrade1IsActive;
-	}
-	
-	public static int getDrUUpgrade1() 
-	{
-		int score = 0;
-		if (getDrUUpgrade1IsActive ()) {
-			score = drUUpgrade1;
-		}
-		return score;
-	}
 
     // Use this for initialization
     void Start()
@@ -71,9 +45,9 @@ public class UpgradePanel : MonoBehaviour
             imageButton.targetGraphic = imageUI;
 			var colors = imageButton.GetComponent<Button> ().colors;
 			colors.normalColor = Color.white;
-			colors.highlightedColor = Color.yellow;
-			colors.pressedColor = Color.cyan;
-			colors.disabledColor = Color.black;
+			colors.highlightedColor = Color.grey;
+			colors.pressedColor = Color.white;
+			colors.disabledColor = Color.grey;
 			imageButton.GetComponent<Button> ().colors = colors;
 			//imageButton.interactable = false;
 			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoUpgradePanel(imageUI); });
@@ -91,7 +65,7 @@ public class UpgradePanel : MonoBehaviour
             {
                 UpgradesPanel.SetActive(false);
             }
-    }
+    	}
     }
 
     //Event called onClick.
@@ -102,6 +76,13 @@ public class UpgradePanel : MonoBehaviour
 		MoreInfoUpgradePanel.transform.GetChild (1).GetChild(0).GetComponent<Text> ().text = upgrades[i];
         MoreInfoUpgradePanel.SetActive(true);
     }
+
+	public void purchaseUpgrade() {
+		int upgradePoints = PlayerPrefs.GetInt("upgradePoints");
+		upgradePoints -= 1;
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.Save();
+	}
 
 }
 
