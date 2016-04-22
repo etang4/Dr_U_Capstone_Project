@@ -5,7 +5,6 @@ public class SwitchToLoadingScreen : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
 	}
 	
 	// Update is called once per frame
@@ -15,7 +14,6 @@ public class SwitchToLoadingScreen : MonoBehaviour {
 	}
 
 	public void SwitchLoadingScreen() {
-
 		var oldDate = new System.DateTime(2016, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 		var oldDateString = DBUpdate.ConvertDateTimeToBinaryString(oldDate);
 		PlayerPrefs.SetString("db_date", oldDateString);
