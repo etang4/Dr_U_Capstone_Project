@@ -13,11 +13,11 @@ public class RankText : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rankingText = GetComponent<Text>();
-		rankingText.text = "Rank: " + ranks [ResourceCounter.rank];
+		rankingText.text = "Rank: " + ranks [PlayerPrefs.GetInt("rank")];
 	}
 	
 	// Update is called once per frame
 	void Update () {		
-		rankingText.text = "Rank: " + ranks [ResourceCounter.rank];
+		rankingText.text = "Rank: " + ranks [PlayerPrefs.GetInt("rank")];
 	}
 }

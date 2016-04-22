@@ -13,7 +13,7 @@ public class BadgePanel : MonoBehaviour
 	public GameObject MoreInfoBadgePanel;
 	public GameObject[] badgeList;
 	
-	private static string[] badges = {  				// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
+	public static string[] badges = {  				// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
 		"Moon Badge: Earned for asking 1 question", 
 		"Sun Badge: Earned for asking 5 questions",
 		"Mercury Badge: Earned for asking 10 questions", 
@@ -27,11 +27,12 @@ public class BadgePanel : MonoBehaviour
 		"Pluto Badge: Earned for asking 50 questions", 
 		"Galaxy Badge: Earned for asking 60 questions", 
 	};	
+
+	public static int[] pointsNeeded = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60 };
 	
 	// Use this for initialization
 	void Start()
 	{
-		//MoreInfoBadgePanel = GameObject.Find("MoreInfoBadgePanel Need to dynamically find this gameobject eventually.
 		Debug.Log(MoreInfoBadgePanel);
 		
 		//Create display list
@@ -50,6 +51,13 @@ public class BadgePanel : MonoBehaviour
 			imageUI.sprite = SetImages[i];
 			Button imageButton = newImage.AddComponent<Button>();
 			imageButton.targetGraphic = imageUI;
+			var colors = imageButton.GetComponent<Button> ().colors;
+			colors.normalColor = Color.white;
+			colors.highlightedColor = Color.yellow;
+			colors.pressedColor = Color.cyan;
+			colors.disabledColor = Color.black;
+			imageButton.GetComponent<Button> ().colors = colors;
+			imageButton.interactable = false;
 			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoBadgePanel(imageUI); });
 
 			//Sets newly created button to display list.
@@ -59,6 +67,7 @@ public class BadgePanel : MonoBehaviour
 	}
     void Update()
     {
+		checkBadges ();
         if (Input.GetKey(KeyCode.Escape))
         {
             BadgesPanel.SetActive(false);
@@ -74,14 +83,32 @@ public class BadgePanel : MonoBehaviour
 		MoreInfoBadgePanel.SetActive(true);
 	}
 
-/*	public void awardBadge(int badge) {
-		if (ResourceCounter.getPoints () < BadgePanel.getDrUSavedScore) {
-			Button imageButton = itemsList[1];
-			Image imageUI = imageButton.targetGraphic;
-			imageUI.
+	// Checks the specified badge to see whether it can be awarded or removed based on the number of questions asked, and updates the badge counter to watch the next badge in order
+	public void checkBadges() {
+		int badgeCount = PlayerPrefs.GetInt ("badgesCount");
+		if (PlayerPrefs.GetInt ("questionsAsked") >= pointsNeeded [badgeCount]) {
+			itemsList [badgeCount].GetComponent<Button> ().interactable = true;
 		}
+		PlayerPrefs.SetInt ("badgesCount", badgeCount);
+		PlayerPrefs.Save();
+	}
 
-	}*/
+	// Sets the specified badge number to active in the Badges Panel, making the badge button clickable and normal color
+	public void awardNewBadge(int badge) {
+		itemsList [badge].GetComponent<Button>().interactable = true;
+		//Image currentImg = itemsList [badge].GetComponent<Image> ();
+		//BadgesButton.setButtonColor ();
+	}
+
+	// Resets all badges to uninteractable
+	public void clearBadges() {
+		PlayerPrefs.SetInt ("badgesCount", 0);
+		for (int i = 0; i < badges.Length; i++) {
+			itemsList [i].GetComponent<Button>().interactable = false;
+		}
+	}
+
+
 		
 }
 

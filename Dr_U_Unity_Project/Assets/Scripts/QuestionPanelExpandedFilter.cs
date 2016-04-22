@@ -156,4 +156,27 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 		return pair_list;
 
 	}
+	
+	// Scoring Code
+	public void addQuestionsAsked (int amount, int questionsFound)
+	{
+		int questionsAsked = PlayerPrefs.GetInt("questionsAsked");
+		int questionsStumped = PlayerPrefs.GetInt("questionsStumped");
+		int experience = PlayerPrefs.GetInt ("experience");
+		int experienceAdded = 5;
+
+		if (questionsFound == 0) {			// If questionsFound = 0, then the search term returned no results, and thus Dr. U was stumped.		
+			questionsStumped += 1;	
+			experienceAdded = 10;
+		}
+
+		questionsAsked += amount;
+		experience += experienceAdded;
+		ResourceCounter.scoreAlert (experienceAdded.ToString());  // Uncomment this to make it play a score alert when you click an FAQ
+
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.Save();
+	}
 }

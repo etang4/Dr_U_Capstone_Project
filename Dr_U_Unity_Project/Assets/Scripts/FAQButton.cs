@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 
 public class FAQButton : MonoBehaviour {
+
 	public string question = "";
 	public string answer = "";
 	public string language;
@@ -42,7 +43,7 @@ public class FAQButton : MonoBehaviour {
 	
 	public void switchToAnswer()
 	{
-		ResourceCounter.addFaqsClicked(1);
+		addFaqsClicked(1);
 		
 		this.gameObject.GetComponent<Animation>().Play("FlipButton");
 		this.gameObject.GetComponent<Image>().color = answerColor;
@@ -65,5 +66,21 @@ public class FAQButton : MonoBehaviour {
 			this.gameObject.transform.GetChild (0).GetComponent<Text> ().text = faqPair.question;
 		}
 		this.gameObject.GetComponent<Animation>().Play("FlipButtonReverse");
+	}
+
+	// Scoring Code
+	public void addFaqsClicked (int amount)
+	{
+		int faqsClicked = PlayerPrefs.GetInt("faqsClicked");
+		int experience = PlayerPrefs.GetInt ("experience");
+
+		faqsClicked += amount;
+		experience += 5;
+
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.Save();
+
+		//ResourceCounter.scoreAlert (amount.ToString());  // Uncomment this to make it play a score alert when you click an FAQ
 	}
 }
