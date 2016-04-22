@@ -28,28 +28,29 @@ public class ResourceCounter : MonoBehaviour
 	private static GameObject alert;
 	private static Text alertText;
 	private static Animation addScore;
-	
-	private static int experience { get; set; }
+
+	private const int expToFirstRank = 25;
+
+	public static int experience { get; set; }
 	public static int rank { get; set; }
-	private static int rankUp { get; set; }
-	private static int questionsAsked { get; set; }
-	private static int questionsStumped { get; set; }
-	private static int faqsClicked { get; set; }
-	private static int imagesClicked { get; set; }
-	private static int exhibitsVisited { get; set; }
-	private static int planetsLanded { get; set; }
-	private static int mysteriesInvestigated { get; set; }
-	private static int mysteriesSolved { get; set; }
-	private static int drUSaved { get; set; }
+	public static int rankUp { get; set; }
+	public static int questionsAsked { get; set; }
+	public static int questionsStumped { get; set; }
+	public static int faqsClicked { get; set; }
+	public static int imagesClicked { get; set; }
+	public static int exhibitsVisited { get; set; }
+	public static int planetsVisited { get; set; }
+	public static int mysteriesInvestigated { get; set; }
+	public static int mysteriesSolved { get; set; }
+	public static int drUSaved { get; set; }
 	
 	// Use this for initialization
 	void Start() {
 		//		defineCounters ();
 		
-		experience = PlayerPrefs.GetInt("Experience");
-		counter = GetComponent<Text>();
+		eraseScores ();
 
-		rankUp = 25; // Experience points needed to rank up
+		counter = GetComponent<Text>();
 		
 		alert = GameObject.Find("ScoreAlert");
 		alertText = alert.GetComponentsInChildren<Text>()[0];
@@ -103,6 +104,79 @@ public class ResourceCounter : MonoBehaviour
 			PlayerPrefs.SetInt("experience", experience);
 			PlayerPrefs.Save();
 		}
+	}
+
+	public static void eraseScores ()
+	{
+		experience = 0;
+		rank = 0;
+		rankUp = expToFirstRank;
+		questionsAsked = 0;
+		questionsStumped = 0;
+		faqsClicked = 0;
+		imagesClicked = 0;
+		exhibitsVisited = 0;
+		planetsVisited = 0;
+		mysteriesInvestigated = 0;
+		mysteriesSolved = 0;
+		drUSaved = 0;
+
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("rank", rank);
+		PlayerPrefs.SetInt("rankUp", rankUp);
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
+		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
+		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
+		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
+		PlayerPrefs.SetInt("drUSaved", drUSaved);
+	}
+
+	public static void loadScores() {
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("rank", rank);
+		PlayerPrefs.SetInt("rankUp", rankUp);
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
+		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
+		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
+		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
+		PlayerPrefs.SetInt("drUSaved", drUSaved);
+	}
+
+	public static void maxOutScores ()
+	{
+		experience = 51200;
+		rank = 11;
+		rankUp = expToFirstRank;
+		questionsAsked = 100;
+		questionsStumped = 100;
+		faqsClicked = 100;
+		imagesClicked = 100;
+		exhibitsVisited = 100;
+		planetsVisited = 100;
+		mysteriesInvestigated = 100;
+		mysteriesSolved = 100;
+		drUSaved = 100;
+
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("rank", rank);
+		PlayerPrefs.SetInt("rankUp", rankUp);
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
+		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
+		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
+		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
+		PlayerPrefs.SetInt("drUSaved", drUSaved);
 	}
 	
 	void OnApplicationQuit() {
@@ -169,7 +243,7 @@ public class ResourceCounter : MonoBehaviour
 	
 	public static void addPlanetsLanded (int amount)
 	{
-		planetsLanded += amount;
+		planetsVisited += amount;
 		addExperience(5, true);
 	}
 	

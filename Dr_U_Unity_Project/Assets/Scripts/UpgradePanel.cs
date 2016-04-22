@@ -9,8 +9,22 @@ public class UpgradePanel : MonoBehaviour
 	public Sprite[] SetImages;
 	public GameObject containerRect;
     public GameObject UpgradesPanel;
-	
-	public GameObject MoreInfoImagePanel;
+	public GameObject MoreInfoUpgradePanel;
+
+	private static string[] upgrades = {						// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
+		"Moon Badge: Earned for asking 1 question", 
+		"Sun Badge: Earned for asking 5 questions",
+		"Mercury Badge: Earned for asking 10 questions", 
+		"Venus Badge: Earned for asking 15 questions",
+		"Earth Badge: Earned for asking 20 questions",
+		"Mars Badge: Earned for asking 25 questions",
+		"Jupiter Badge: Earned for asking 30 questions", 
+		"Saturn Badge: Earned for asking 35 questions", 
+		"Uranus Badge: Earned for asking 40 questions", 
+		"Neptune Badge: Earned for asking 45 questions", 
+		"Pluto Badge: Earned for asking 50 questions", 
+		"Galaxy Badge: Earned for asking 60 questions", 
+	};	
 	
 	public const int drUUpgrade1 = 10;
 	public const int drUUpgrade2 = 20;
@@ -36,11 +50,11 @@ public class UpgradePanel : MonoBehaviour
     void Start()
     {
         //MoreInfoImagePanel = GameObject.Find("MoreInfoImagePanel Need to dynamically find this gameobject eventually.
-        Debug.Log(MoreInfoImagePanel);
+        Debug.Log(MoreInfoUpgradePanel);
 
         //Create display list
-        containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width / 3,
-                                                                             containerRect.GetComponent<RectTransform>().rect.width / 3);
+        containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width / 6,
+                                                                             containerRect.GetComponent<RectTransform>().rect.width / 6);
         containerRect.GetComponent<RectTransform>().sizeDelta = new Vector2(containerRect.GetComponent<RectTransform>().sizeDelta.x,
                                                                             containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
 
@@ -49,12 +63,12 @@ public class UpgradePanel : MonoBehaviour
         for (int i = 0; i < listSize; i++)
         {
             //Instantiates buttons from image array.
-            GameObject newImage = new GameObject("Upgrades " + i);
+            GameObject newImage = new GameObject("" + i);
             Image imageUI = newImage.AddComponent<Image>();
             imageUI.sprite = SetImages[i];
             Button imageButton = newImage.AddComponent<Button>();
             imageButton.targetGraphic = imageUI;
-            imageButton.onClick.AddListener(() => { this.ActivateMoreInfoImagePanel(imageUI); });
+			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoUpgradePanel(imageUI); });
 
             //Sets newly created button to display list.
             itemsList[i] = newImage;
@@ -66,15 +80,17 @@ public class UpgradePanel : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            MoreInfoImagePanel.SetActive(false);
+            UpgradesPanel.SetActive(false);
         }
     }
 
     //Event called onClick.
-    public void ActivateMoreInfoImagePanel(Image currentImg) //Needs parameter at some point to determine what image/data to show
+	public void ActivateMoreInfoUpgradePanel(Image currentImg) //Needs parameter at some point to determine what image/data to show
     {
-        MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
-        MoreInfoImagePanel.SetActive(true);
+		int i = Extension.IntParseFast (currentImg.name);
+		MoreInfoUpgradePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
+		MoreInfoUpgradePanel.transform.GetChild (1).GetChild(0).GetComponent<Text> ().text = upgrades[i];
+        MoreInfoUpgradePanel.SetActive(true);
     }
 
 }
