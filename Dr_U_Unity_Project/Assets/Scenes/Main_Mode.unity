@@ -96,6 +96,7 @@ GameObject:
   - 222: {fileID: 1599608}
   - 114: {fileID: 1599607}
   - 114: {fileID: 1599606}
+  - 114: {fileID: 1599609}
   - 114: {fileID: 1599605}
   m_Layer: 5
   m_Name: EraseButton
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1599603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3458aee458c9e943a1644c92327c77c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5257b85c76d35404181afb2bf944f1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1599606
@@ -183,6 +184,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 36467579}
+        m_MethodName: clearBadges
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1599607
@@ -218,6 +230,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1599603}
+--- !u!114 &1599609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1599603}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487d533ded483ef4cb2ddc27ba65aff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsList: []
+  listSize: 0
+  SetImages: []
+  containerRect: {fileID: 0}
+  MoreInfoBadgePanel: {fileID: 0}
+  badgeList: []
 --- !u!1 &36467577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,7 +1881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &346476665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2833,6 +2862,7 @@ GameObject:
   - 222: {fileID: 513447591}
   - 114: {fileID: 513447590}
   - 114: {fileID: 513447589}
+  - 114: {fileID: 513447592}
   m_Layer: 5
   m_Name: BadgesButton
   m_TagString: Untagged
@@ -2908,6 +2938,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 513447592}
+        m_MethodName: onClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &513447590
@@ -2943,6 +2984,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 513447587}
+--- !u!114 &513447592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 513447587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b650a36f20124a74a99950270f4ff559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &586206269
 GameObject:
   m_ObjectHideFlags: 0
@@ -4624,7 +4676,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 993855822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80879ab08509d5d46b6758a24b701ff1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b97c804e3d5fde498dfcec9974ac52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1075470865
@@ -4949,7 +5001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02df319980b97a459f6b41aae0d57fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counter: {fileID: 0}
+  resourceCounter: {fileID: 0}
 --- !u!1 &1185237247
 GameObject:
   m_ObjectHideFlags: 0

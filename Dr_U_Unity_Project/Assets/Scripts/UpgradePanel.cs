@@ -68,6 +68,13 @@ public class UpgradePanel : MonoBehaviour
             imageUI.sprite = SetImages[i];
             Button imageButton = newImage.AddComponent<Button>();
             imageButton.targetGraphic = imageUI;
+			var colors = imageButton.GetComponent<Button> ().colors;
+			colors.normalColor = Color.white;
+			colors.highlightedColor = Color.yellow;
+			colors.pressedColor = Color.cyan;
+			colors.disabledColor = Color.black;
+			imageButton.GetComponent<Button> ().colors = colors;
+			//imageButton.interactable = false;
 			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoUpgradePanel(imageUI); });
 
             //Sets newly created button to display list.

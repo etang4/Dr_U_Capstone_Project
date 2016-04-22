@@ -96,7 +96,7 @@ public class ImagePanel : MonoBehaviour
 	//Event called onClick.
 	public void ActivateMoreInfoImagePanel(Image currentImg, String currentInfo) //Needs parameter at some point to determine what image/data to show
 	{
-		ResourceCounter.addImagesClicked(1);
+		addImagesClicked(1);
 		MoreInfoImagePanel.transform.GetChild(0).GetComponent<Image>().sprite = currentImg.sprite;
 		MoreInfoImagePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = currentInfo;
 		MoreInfoImagePanel.SetActive(true);
@@ -165,6 +165,22 @@ public class ImagePanel : MonoBehaviour
 		texture.LoadImage(data);
 		texture.name = Path.GetFileNameWithoutExtension(path);
 		return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);  // Translate texture to sprite
+	}
+
+	// Scoring Code
+	public void addImagesClicked (int amount)
+	{
+		int imagesClicked = PlayerPrefs.GetInt("imagesClicked");
+		int experience = PlayerPrefs.GetInt ("experience");
+
+		imagesClicked += amount;
+		experience += 5;
+
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.Save();
+
+		//ResourceCounter.scoreAlert (amount.ToString());  // Uncomment this to make it play a score alert when you click an FAQ
 	}
 }
 

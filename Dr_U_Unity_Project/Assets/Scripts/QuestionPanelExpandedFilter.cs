@@ -14,26 +14,22 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 	private bool _isInstantiated;
 	private GridLayoutGroup faqGrid;
 	private RectTransform faqRect;
-	
+
 	// Use this for initialization
-	void Start()
-	{
+	void Start() {
 		
 		SearchBarText.onEndEdit.AddListener(filterList);
 		_isInstantiated = false;
 		filterList(SearchBarText.text);         //Initial run
 		_isInstantiated = true;
-		
-		
 	}
-	
-	
+
 	public void filterList(string input)
 	{
 		string result = input.ToLower();
 		Dictionary<string, string> searchResults = fakeSearch(result, 1);          //Update this to use real data
 		
-		int question = 0;
+		int questionsCount = 0;
 		foreach(GameObject item in itemsList){
 			Destroy(item);
 		}
@@ -55,17 +51,17 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 		foreach (KeyValuePair<string, string> answer in searchResults)
 		{
 			GameObject newButton = Instantiate(originalButton);
-			itemsList[question] = newButton;
+			itemsList[questionsCount] = newButton;
 			FAQButton FAQ = newButton.GetComponent<FAQButton>();
 			FAQ.question = answer.Key;
 			FAQ.answer = answer.Value;
 			newButton.transform.GetChild(0).GetComponent<Text>().text = FAQ.question;
 			
 			newButton.transform.parent = this.transform;
-			question++;
+			questionsCount++;
 		}
 		
-		ResourceCounter.addQuestionsAsked(1,question);	// If question = 0, then the search term returned no results, and thus Dr. U was stumped.
+		addQuestionsAsked(1,questionsCount);	// If question = 0, then the search term returned no results, and thus Dr. U was stumped.
 	}
 	
 	
@@ -85,6 +81,28 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 		}
 		return results;
 	}
-	
+
+	// Scoring Code
+	public void addQuestionsAsked (int amount, int questionsFound)
+	{
+		int questionsAsked = PlayerPrefs.GetInt("questionsAsked");
+		int questionsStumped = PlayerPrefs.GetInt("questionsStumped");
+		int experience = PlayerPrefs.GetInt ("experience");
+		int experienceAdded = 5;
+
+		if (questionsFound == 0) {			// If questionsFound = 0, then the search term returned no results, and thus Dr. U was stumped.		
+			questionsStumped += 1;	
+			experienceAdded = 10;
+		}
+
+		questionsAsked += amount;
+		experience += experienceAdded;
+		ResourceCounter.scoreAlert (experienceAdded.ToString());  // Uncomment this to make it play a score alert when you click an FAQ
+
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.Save();
+	}
 }
 

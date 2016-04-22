@@ -8,7 +8,7 @@ public class ResourceCounter : MonoBehaviour
 {
 	/*
 	public DBConnector localDB;
-	public static SimpleSQL.SimpleSQLManager dbManager;
+	private SimpleSQL.SimpleSQLManager dbManager;
 
 	public List<ScoreCounter> ScoreCounterList;
 	public ScoreCounter experience { get; set; }
@@ -24,44 +24,136 @@ public class ResourceCounter : MonoBehaviour
 	public ScoreCounter mysteriesSolved { get; set; }
 	public ScoreCounter drUSaved { get; set; }	*/
 	
-	public Text counter;
-	private static GameObject alert;
-	private static Text alertText;
-	private static Animation addScore;
+	public Text resourceCounter;
+
 
 	private const int expToFirstRank = 25;
 
-	public static int experience { get; set; }
-	public static int rank { get; set; }
-	public static int rankUp { get; set; }
-	public static int questionsAsked { get; set; }
-	public static int questionsStumped { get; set; }
-	public static int faqsClicked { get; set; }
-	public static int imagesClicked { get; set; }
-	public static int exhibitsVisited { get; set; }
-	public static int planetsVisited { get; set; }
-	public static int mysteriesInvestigated { get; set; }
-	public static int mysteriesSolved { get; set; }
-	public static int drUSaved { get; set; }
+	private int experience { get; set; }
+	private int rank { get; set; }
+	private int rankUp { get; set; }
+	private int questionsAsked { get; set; }
+	private int questionsStumped { get; set; }
+	private int faqsClicked { get; set; }
+	private int imagesClicked { get; set; }
+	private int exhibitsVisited { get; set; }
+	private int planetsVisited { get; set; }
+	private int mysteriesInvestigated { get; set; }
+	private int mysteriesSolved { get; set; }
+	private int drUSaved { get; set; }
+	private int badgesCount { get; set; }				// Number of badges that have been awarded due to questions asked. See BadgePanel.checkBadges to see how they are awarded. Indexes at 0.
+
+	public static GameObject alert;
+	public static Text alertText;
+	public static Animation addScore;
+
+	public static void scoreAlert(string message) {
+			alert.SetActive(true);
+			alertText.text = message;
+			addScore.Play("AddScore");
+	}
 	
 	// Use this for initialization
 	void Start() {
-		//		defineCounters ();
-		
-		eraseScores ();
 
-		counter = GetComponent<Text>();
-		
 		alert = GameObject.Find("ScoreAlert");
 		alertText = alert.GetComponentsInChildren<Text>()[0];
-		
+
 		addScore = alert.gameObject.GetComponent<Animation>();
 		alert.SetActive(false);
-		
-		// Preload the database with relevant information
+
+		resourceCounter = GetComponent<Text>();
+	}
+
+	// Update is called once per frame
+	void Update () {
+		if (!addScore.isPlaying)
+		{
+			experience = PlayerPrefs.GetInt ("experience");
+			alert.SetActive(false);
+			resourceCounter.text = experience.ToString() + " EXP";
+			checkRankUp ();								// check if the player earned enough experience to level up
+		}
+	}
+
+
+	private void saveScores() {
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("rank", rank);
+		PlayerPrefs.SetInt("rankUp", rankUp);
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
+		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
+		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
+		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
+		PlayerPrefs.SetInt("drUSaved", drUSaved);
+		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+		PlayerPrefs.Save();
 	}
 	
-	/*	
+	void OnApplicationQuit() {
+		PlayerPrefs.DeleteKey("experience");
+	}
+	
+	private void addExperience(int amount) {
+		experience += amount;
+		scoreAlert (amount.ToString());
+		saveScores ();								// Every time the player does something to gain experience save it to global PlayerPrefs object.
+
+	}
+
+    private void addRank(int amount)
+    {
+		rank += amount;
+	}
+	
+	private void checkRankUp ()
+	{
+		if (experience >= rankUp && rank <= 11) {
+			rankUp = rankUp * 2;
+			addRank (1);
+		}
+	}
+}
+
+
+
+
+/*	
+
+	public void addExhibitsVisited (int amount)
+	{
+		exhibitsVisited += amount;
+		addExperience(5, true);
+	}
+	
+	public void addPlanetsLanded (int amount)
+	{
+		planetsVisited += amount;
+		addExperience(5, true);
+	}
+	
+	public void addMysteriesInvestigated (int amount)
+	{
+		mysteriesInvestigated += amount;
+		addExperience(5, false);
+	}
+	
+	public void addMysteriesSolved (int amount)
+	{
+		mysteriesSolved += amount;
+		addExperience(50, true);
+	}
+	
+	public void addDrUSaved (int amount)
+	{
+		drUSaved += amount;
+		addExperience(100, true);
+	}
+	
 	void defineCounters ()
 	{
 		localDB = new DBConnector();
@@ -95,173 +187,3 @@ public class ResourceCounter : MonoBehaviour
 
 	}
 */
-	// Update is called once per frame
-	void Update () {
-		if (!addScore.isPlaying)
-		{
-			alert.SetActive(false);
-			counter.text = experience.ToString() + " EXP";
-			PlayerPrefs.SetInt("experience", experience);
-			PlayerPrefs.Save();
-		}
-	}
-
-	public static void eraseScores ()
-	{
-		experience = 0;
-		rank = 0;
-		rankUp = expToFirstRank;
-		questionsAsked = 0;
-		questionsStumped = 0;
-		faqsClicked = 0;
-		imagesClicked = 0;
-		exhibitsVisited = 0;
-		planetsVisited = 0;
-		mysteriesInvestigated = 0;
-		mysteriesSolved = 0;
-		drUSaved = 0;
-
-		PlayerPrefs.SetInt("experience", experience);
-		PlayerPrefs.SetInt("rank", rank);
-		PlayerPrefs.SetInt("rankUp", rankUp);
-		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
-		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
-		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
-		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
-		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
-		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
-		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
-		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
-		PlayerPrefs.SetInt("drUSaved", drUSaved);
-	}
-
-	public static void loadScores() {
-		PlayerPrefs.SetInt("experience", experience);
-		PlayerPrefs.SetInt("rank", rank);
-		PlayerPrefs.SetInt("rankUp", rankUp);
-		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
-		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
-		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
-		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
-		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
-		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
-		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
-		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
-		PlayerPrefs.SetInt("drUSaved", drUSaved);
-	}
-
-	public static void maxOutScores ()
-	{
-		experience = 51200;
-		rank = 11;
-		rankUp = expToFirstRank;
-		questionsAsked = 100;
-		questionsStumped = 100;
-		faqsClicked = 100;
-		imagesClicked = 100;
-		exhibitsVisited = 100;
-		planetsVisited = 100;
-		mysteriesInvestigated = 100;
-		mysteriesSolved = 100;
-		drUSaved = 100;
-
-		PlayerPrefs.SetInt("experience", experience);
-		PlayerPrefs.SetInt("rank", rank);
-		PlayerPrefs.SetInt("rankUp", rankUp);
-		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
-		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
-		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
-		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
-		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
-		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
-		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
-		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
-		PlayerPrefs.SetInt("drUSaved", drUSaved);
-	}
-	
-	void OnApplicationQuit() {
-		PlayerPrefs.DeleteKey("experience");
-	}
-	
-	public static void addExperience(int amount, bool playAnimation) {
-        if (playAnimation)
-        {
-            alert.SetActive(true);
-            alertText.text = amount.ToString();
-            addScore.Play("AddScore");
-        }
-		experience += amount;
-		checkRankUp ();								// check if the player earned enough experience to level up
-	}
-
-    public static void addRank(int amount)
-    {
-		rank += amount;
-	}
-	
-	static void checkRankUp ()
-	{
-		if (experience >= rankUp && rank <= 11) {
-			rankUp = rankUp * 2;
-			addRank (1);
-		}
-	}
-	
-	public static void addQuestionsAsked(int amount, int questionsFound) {
-		questionsAsked += amount;
-		
-		if (questionsFound == 0) {			// If questionsFound = 0, then the search term returned no results, and thus Dr. U was stumped.					
-			addExperience(10, true);
-			addQuestionsStumped(1);	
-		} else if (questionsFound > 0)  {
-			addExperience(5, true);
-		}
-	}
-	
-	static void addQuestionsStumped (int amount)
-	{
-		questionsStumped += amount;
-	}
-	
-	public static void addFaqsClicked (int amount)
-	{
-		faqsClicked += amount;
-		addExperience(5, false);
-	}
-	
-	public static void addImagesClicked (int amount)
-	{
-		imagesClicked += 1;
-		addExperience(5, false);
-	}
-	
-	public static void addExhibitsVisited (int amount)
-	{
-		exhibitsVisited += amount;
-		addExperience(5, true);
-	}
-	
-	public static void addPlanetsLanded (int amount)
-	{
-		planetsVisited += amount;
-		addExperience(5, true);
-	}
-	
-	public static void addMysteriesInvestigated (int amount)
-	{
-		mysteriesInvestigated += amount;
-		addExperience(5, false);
-	}
-	
-	public static void addMysteriesSolved (int amount)
-	{
-		mysteriesSolved += amount;
-		addExperience(50, true);
-	}
-	
-	public static void addDrUSaved (int amount)
-	{
-		drUSaved += amount;
-		addExperience(100, true);
-	}
-}
