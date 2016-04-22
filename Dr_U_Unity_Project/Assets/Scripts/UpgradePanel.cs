@@ -8,6 +8,7 @@ public class UpgradePanel : MonoBehaviour
 	public int listSize;
 	public Sprite[] SetImages;
 	public GameObject containerRect;
+    public GameObject UpgradesPanel;
 	
 	public GameObject MoreInfoImagePanel;
 	
@@ -58,6 +59,14 @@ public class UpgradePanel : MonoBehaviour
             //Sets newly created button to display list.
             itemsList[i] = newImage;
             newImage.transform.parent = this.transform;
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            MoreInfoImagePanel.SetActive(false);
         }
     }
 

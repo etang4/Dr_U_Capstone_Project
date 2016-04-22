@@ -52,6 +52,7 @@ public class DBUpdate : MonoBehaviour {
 
 		if (db_update == true) {
 			Application.LoadLevel("Main_Mode");
+            
 		}
 
 	}
@@ -246,8 +247,8 @@ public class DBUpdate : MonoBehaviour {
 		var questionIndex = "CREATE INDEX Question_content ON Question(content_area)";
 		var answerIndex = "CREATE INDEX Answer_content ON Answer(content_area)";
 
-		dbManager.Execute(questionIndex);
-		dbManager.Execute(answerIndex);
+		//dbManager.Execute(questionIndex);
+		//dbManager.Execute(answerIndex);
 		
 	}
 
