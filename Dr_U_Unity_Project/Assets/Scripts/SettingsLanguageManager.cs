@@ -19,6 +19,7 @@ public class SettingsLanguageManager : MonoBehaviour {
     private GameObject _questionPanel;
     private GameObject _rankingText;
     private GameObject _searchBar;
+    private GameObject _searchButton;
     private GameObject _settingsButton;
     private GameObject _settingsPanel;
     private GameObject _statsButton;
@@ -47,6 +48,7 @@ public class SettingsLanguageManager : MonoBehaviour {
             _questionPanel = GameObject.Find("QuestionPanel");
             _rankingText = GameObject.Find("RankingText");
             _searchBar = GameObject.Find("SearchBar");
+            _searchButton = GameObject.Find("SearchButton");
             _settingsButton = GameObject.Find("SettingsButton");
             _settingsPanel = GameObject.Find("SettingsPanel");
             _statsButton = GameObject.Find("StatsButton");
@@ -85,6 +87,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         //_moreInfoUnlocksPanel = GameObject.Find("MoreInfoUnlocksPanel");
         _rankingText.GetComponent<Text>().text = "Rank 1";
         _searchBar.transform.FindChild("Placeholder").GetComponent<Text>().text = "Have a Question?";
+        _searchButton.transform.GetChild(0).GetComponent<Text>().text = "Search";
         _settingsButton.transform.GetChild(0).GetComponent<Text>().text = "Settings";
         _settingsPanel.transform.GetChild(0).FindChild("LanguageText").GetComponent<Text>().text = "Language";
         _settingsPanel.transform.GetChild(0).FindChild("SyncText").GetComponent<Text>().text = "Sync Database";
@@ -116,6 +119,7 @@ public class SettingsLanguageManager : MonoBehaviour {
         //_moreInfoUnlocksPanel = GameObject.Find("MoreInfoUnlocksPanel");
         _rankingText.GetComponent<Text>().text = "Rango 1";
         _searchBar.transform.FindChild("Placeholder").GetComponent<Text>().text = "Usted tiene una pregunta?";
+        _searchButton.transform.GetChild(0).GetComponent<Text>().text = "Busca";
         _settingsButton.transform.GetChild(0).GetComponent<Text>().text = "Ajustes";
         _settingsPanel.transform.GetChild(0).FindChild("LanguageText").GetComponent<Text>().text = "Lenguaje";
         _settingsPanel.transform.GetChild(0).FindChild("SyncText").GetComponent<Text>().text = "Sincroniza la Base de Datos";

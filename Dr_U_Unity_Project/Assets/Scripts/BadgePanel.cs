@@ -8,7 +8,6 @@ public class BadgePanel : MonoBehaviour
 	public int listSize;
 	public Sprite[] SetImages;
 	public GameObject containerRect;
-    public GameObject BadgesPanel;
 	
 	public GameObject MoreInfoBadgePanel;
 	public GameObject[] badgeList;
@@ -54,7 +53,7 @@ public class BadgePanel : MonoBehaviour
 			var colors = imageButton.GetComponent<Button> ().colors;
 			colors.normalColor = Color.white;
 			colors.highlightedColor = Color.yellow;
-			colors.pressedColor = Color.cyan;
+			colors.pressedColor = Color.white;
 			colors.disabledColor = Color.black;
 			imageButton.GetComponent<Button> ().colors = colors;
 			imageButton.interactable = false;
@@ -64,16 +63,15 @@ public class BadgePanel : MonoBehaviour
 			itemsList[i] = newImage;
 			newImage.transform.parent = this.transform;
 		}
-	}
-    void Update()
-    {
-		checkBadges();
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            BadgesPanel.SetActive(false);
-        }
-    }
 
+		checkBadges ();
+	}
+
+	// Update is called once per frame
+	void Update () {
+		checkBadges ();
+	}
+	
 	//Event called onClick.
 	public void ActivateMoreInfoBadgePanel(Image currentImg) //Needs parameter at some point to determine what image/data to show
 	{
@@ -83,11 +81,12 @@ public class BadgePanel : MonoBehaviour
 		MoreInfoBadgePanel.SetActive(true);
 	}
 
-	// Checks the specified badge to see whether it can be awarded or removed based on the number of questions asked, and updates the badge counter to watch the next badge in order
+	// Checks the badge specified by badgeCount to see whether it can be awarded or removed based on the number of questions asked, and updates the badge counter to watch the next badge in order
 	public void checkBadges() {
 		int badgeCount = PlayerPrefs.GetInt ("badgesCount");
 		if (PlayerPrefs.GetInt ("questionsAsked") >= pointsNeeded [badgeCount]) {
 			itemsList [badgeCount].GetComponent<Button> ().interactable = true;
+			badgeCount++;
 		}
 		PlayerPrefs.SetInt ("badgesCount", badgeCount);
 		PlayerPrefs.Save();

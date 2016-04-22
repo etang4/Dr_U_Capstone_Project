@@ -37,7 +37,7 @@ public class MaxOutScores : MonoBehaviour {
 		mysteriesInvestigated = 100;
 		mysteriesSolved = 100;
 		drUSaved = 100;
-		badgesCount = 12;
+		badgesCount = 0;
 
 		PlayerPrefs.SetInt("experience", experience);
 		PlayerPrefs.SetInt("rank", rank);

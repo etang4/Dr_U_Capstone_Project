@@ -1,7 +1,3 @@
-/// <summary>
-/// API connector provides basic functions to interact with the remote API.
-/// </summary>
-
 using System;
 using System.Collections;
 using System.Collections.Generic;

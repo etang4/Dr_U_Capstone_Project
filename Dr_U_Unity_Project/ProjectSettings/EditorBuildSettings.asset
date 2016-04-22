@@ -7,5 +7,3 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Main_Mode.unity
-  - enabled: 1
-    path: Assets/Scenes/Loading_Screen.unity
