@@ -78,6 +78,7 @@ public class UpgradePanel : MonoBehaviour
     }
 
 	public void purchaseUpgrade() {
+        // This does not currently work.
 		int upgradePoints = PlayerPrefs.GetInt("upgradePoints");
 		upgradePoints -= 1;
 		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);

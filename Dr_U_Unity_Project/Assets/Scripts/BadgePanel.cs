@@ -5,13 +5,12 @@ using UnityEngine.UI;
 public class BadgePanel : MonoBehaviour
 {
 	public GameObject[] itemsList;
-	public int listSize;
+	
 	public Sprite[] SetImages;
 	public GameObject containerRect;
     public GameObject BadgesPanel;
 	
 	public GameObject MoreInfoBadgePanel;
-	public GameObject[] badgeList;
 	
 	public static string[] badges = {  				// Make sure this is the same size as your list in Unity or you'll have an array out of bounds exception
 		"Moon Badge: Earned for asking 1 question", 
@@ -29,12 +28,13 @@ public class BadgePanel : MonoBehaviour
 	};	
 
 	public static int[] pointsNeeded = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 9999 }; // Make sure this is one item larger than your list in Unity or you'll have an array out of bounds exception
-	
+
+    private int listSize;
 	// Use this for initialization
 	void Start()
 	{
 		Debug.Log(MoreInfoBadgePanel);
-		
+        listSize = badges.Length;
 		//Create display list
 		containerRect.GetComponent<GridLayoutGroup>().cellSize = new Vector2(containerRect.GetComponent<RectTransform>().rect.width / 6,
 		                                                                     containerRect.GetComponent<RectTransform>().rect.width / 6);
@@ -42,7 +42,7 @@ public class BadgePanel : MonoBehaviour
 		                                                                    containerRect.GetComponent<GridLayoutGroup>().cellSize.y * listSize);
 		
 		containerRect.GetComponent<RectTransform>().offsetMax = new Vector2(containerRect.GetComponent<RectTransform>().offsetMax.x, 0);
-
+         
 		for (int i = 0; i < listSize; i++)
 		{
 			//Instantiates buttons from image array.
@@ -57,21 +57,23 @@ public class BadgePanel : MonoBehaviour
 			colors.pressedColor = Color.grey;
 			colors.disabledColor = Color.grey;
 			imageButton.GetComponent<Button> ().colors = colors;
-			imageButton.interactable = false;
+            imageButton.interactable = false;
 			imageButton.onClick.AddListener(() => { this.ActivateMoreInfoBadgePanel(imageUI); });
 
 			//Sets newly created button to display list.
 			itemsList[i] = newImage;
-			newImage.transform.parent = this.transform;
+			newImage.transform.SetParent(this.transform);
 		}
 		checkBadges();
 	}
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.Escape))
+        if (!MoreInfoBadgePanel.activeSelf)
         {
-            BadgesPanel.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                BadgesPanel.SetActive(false);
+            }
         }
     }
 
@@ -97,12 +99,6 @@ public class BadgePanel : MonoBehaviour
 	// Also awards an upgrade point for earning the badge
 	public void awardNewBadge(int badge) {
 		itemsList [badge].GetComponent<Button>().interactable = true;
-		int upgradePoints = PlayerPrefs.GetInt("upgradePoints");
-		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
-		PlayerPrefs.Save();
-
-		//Image currentImg = itemsList [badge].GetComponent<Image> ();
-		//BadgesButton.setButtonColor ();
 	}
 
 	// Resets all badges to uninteractable - be aware that checkBadges() is constantly running in Update(), which may set badges back to interactable if the player has enough questions Asked

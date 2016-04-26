@@ -49,7 +49,8 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        // TODO:  Fix issue where if user has settings, badges or unlocks panel open and hit back, it will close the search as well
+        if (Input.GetKeyDown(KeyCode.Escape))   
         {
             FAQPanel.SetActive(true);
             FAQPanelExpanded.SetActive(false);
@@ -88,8 +89,8 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
             stumped = true;
             QuestionAnswerPair stumpedItem = new QuestionAnswerPair();
             if (language == "Espanol"){
-                stumpedItem.question_es = "You stumped Dr. Discovery!";
-                stumpedItem.answer_es = "You get 10 points!";
+                stumpedItem.question_es = "¡Usted perplejó a Dr. Discovery!";
+                stumpedItem.answer_es = "¡Usted recibe 10 puntos!";
             }else{
                 stumpedItem.question = "You stumped Dr. Discovery!";
                 stumpedItem.answer = "You get 10 points!";
