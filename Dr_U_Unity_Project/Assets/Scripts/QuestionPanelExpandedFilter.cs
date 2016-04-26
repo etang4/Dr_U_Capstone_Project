@@ -119,9 +119,8 @@ public class QuestionPanelExpandedFilter : MonoBehaviour
                 numFound++;
             }
 		}
-		numFound = stumped ? 0 : numFound;
 
-		addQuestionsAsked(1,numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
+		addQuestionsAsked(1,stumped ? 0 : numFound);	// If stumped send 0, else send number found (this is necessary because the stumped message will alter the numFound variable)
         _isInstantiated = true;
 		
 	}

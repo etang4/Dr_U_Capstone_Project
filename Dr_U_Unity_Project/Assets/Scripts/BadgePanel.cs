@@ -64,10 +64,11 @@ public class BadgePanel : MonoBehaviour
 			itemsList[i] = newImage;
 			newImage.transform.parent = this.transform;
 		}
+		checkBadges();
 	}
     void Update()
     {
-		checkBadges();
+
         if (Input.GetKey(KeyCode.Escape))
         {
             BadgesPanel.SetActive(false);
@@ -83,15 +84,13 @@ public class BadgePanel : MonoBehaviour
 		MoreInfoBadgePanel.SetActive(true);
 	}
 
-	// Checks the specified badge to see whether it can be awarded or removed based on the number of questions asked, and updates the badge counter to watch the next badge in order
+	// Checks the specified badge to see whether it can be awarded or removed based on the badgeCount, and updates the badge counter to watch the next badge in order. 
+	// Basically catches up the BadgePanel to the score already recorded in ResourceCounter.cs
 	public void checkBadges() {
 		int badgeCount = PlayerPrefs.GetInt ("badgesCount");
-		if (PlayerPrefs.GetInt ("questionsAsked") >= pointsNeeded [badgeCount]) {
-			itemsList [badgeCount].GetComponent<Button> ().interactable = true;
-			badgeCount++;
+		for (int currentBadge = 0; currentBadge < badgeCount; currentBadge++) {
+			awardNewBadge(currentBadge);	
 		}
-		PlayerPrefs.SetInt ("badgesCount", badgeCount);
-		PlayerPrefs.Save();
 	}
 
 	// Sets the specified badge number to active in the Badges Panel, making the badge button clickable and normal color
@@ -99,7 +98,6 @@ public class BadgePanel : MonoBehaviour
 	public void awardNewBadge(int badge) {
 		itemsList [badge].GetComponent<Button>().interactable = true;
 		int upgradePoints = PlayerPrefs.GetInt("upgradePoints");
-		upgradePoints += 1;
 		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
 		PlayerPrefs.Save();
 

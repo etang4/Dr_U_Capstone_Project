@@ -57,6 +57,7 @@ public class ResourceCounter : MonoBehaviour
 	
 	// Use this for initialization
 	void Start() {
+		initializeScores ();
 
 		alert = GameObject.Find("ScoreAlert");
 		alertText = alert.GetComponentsInChildren<Text>()[0];
@@ -73,11 +74,66 @@ public class ResourceCounter : MonoBehaviour
 		{
 			experience = PlayerPrefs.GetInt ("experience");
 			alert.SetActive(false);
-			resourceCounter.text = experience.ToString() + " EXP";
+			resourceCounter.text = "EXP: " + experience.ToString();
 			checkRankUp ();								// check if the player earned enough experience to level up
+			checkBadges ();
 		}
 	}
 
+	private void initializeScores() {
+		experience = 0;
+		rank = 0;
+		rankUp = expToFirstRank;
+		questionsAsked = 0;
+		questionsStumped = 0;
+		faqsClicked = 0;
+		imagesClicked = 0;
+		exhibitsVisited = 0;
+		planetsVisited = 0;
+		mysteriesInvestigated = 0;
+		mysteriesSolved = 0;
+		drUSaved = 0;
+		upgradePoints = 0; // Set upgradePoints before setting badgesCount or the upgradePoints will be wrong.
+		upgradesPurchased = 1;  // Meeds to start at 1 or else players won't gain any experience. 
+		badgesCount = 0;
+
+
+		PlayerPrefs.SetInt("experience", experience);
+		PlayerPrefs.SetInt("rank", rank);
+		PlayerPrefs.SetInt("rankUp", rankUp);
+		PlayerPrefs.SetInt("questionsAsked", questionsAsked);
+		PlayerPrefs.SetInt("questionsStumped", questionsStumped);
+		PlayerPrefs.SetInt("faqsClicked", faqsClicked);
+		PlayerPrefs.SetInt("imagesClicked", imagesClicked);
+		PlayerPrefs.SetInt("exhibitsVisited", exhibitsVisited);
+		PlayerPrefs.SetInt("planetsVisited", planetsVisited);
+		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
+		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
+		PlayerPrefs.SetInt("drUSaved", drUSaved);
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.SetInt ("upgradesPurchased", upgradesPurchased);
+		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+		PlayerPrefs.Save();
+	}
+
+	private void loadScores() {
+		experience = PlayerPrefs.GetInt("experience", experience);
+		rank = PlayerPrefs.GetInt("rank", rank);
+		rankUp = PlayerPrefs.GetInt("rankUp", rankUp);
+		questionsAsked = PlayerPrefs.GetInt("questionsAsked", questionsAsked);
+		questionsStumped = PlayerPrefs.GetInt("questionsStumped", questionsStumped);
+		faqsClicked = PlayerPrefs.GetInt("faqsClicked", faqsClicked);
+		imagesClicked = PlayerPrefs.GetInt("imagesClicked", imagesClicked);
+		exhibitsVisited = PlayerPrefs.GetInt("exhibitsVisited", exhibitsVisited);
+		planetsVisited = PlayerPrefs.GetInt("planetsVisited", planetsVisited);
+		mysteriesInvestigated = PlayerPrefs.GetInt("mysteriesInvestigated", mysteriesInvestigated);
+		mysteriesSolved = PlayerPrefs.GetInt("mysteriesSolved", mysteriesSolved);
+		drUSaved = PlayerPrefs.GetInt("drUSaved", drUSaved);
+		upgradePoints = PlayerPrefs.GetInt ("upgradePoints", upgradePoints);
+		upgradesPurchased = PlayerPrefs.GetInt ("upgradesPurchased", upgradesPurchased);
+		badgesCount = PlayerPrefs.GetInt ("badgesCount", badgesCount);
+
+	}
 
 	private void saveScores() {
 		PlayerPrefs.SetInt("experience", experience);
@@ -92,9 +148,10 @@ public class ResourceCounter : MonoBehaviour
 		PlayerPrefs.SetInt("mysteriesInvestigated", mysteriesInvestigated);
 		PlayerPrefs.SetInt("mysteriesSolved", mysteriesSolved);
 		PlayerPrefs.SetInt("drUSaved", drUSaved);
-		PlayerPrefs.SetInt ("badgesCount", badgesCount);
 		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
 		PlayerPrefs.SetInt ("upgradesPurchased", upgradesPurchased);
+		PlayerPrefs.SetInt ("badgesCount", badgesCount);
+
 		PlayerPrefs.Save();
 	}
 	
@@ -121,6 +178,18 @@ public class ResourceCounter : MonoBehaviour
 			rankUp = rankUp * 2;
 			addRank (1);
 		}
+	}
+
+	public void checkBadges() {
+		int badgeCount = PlayerPrefs.GetInt ("badgesCount");
+		int upgradePoints = PlayerPrefs.GetInt ("upgradePoints");
+		if (PlayerPrefs.GetInt ("questionsAsked") >= BadgePanel.pointsNeeded [badgeCount]) {
+			badgeCount++;
+			upgradePoints++;
+		}
+		PlayerPrefs.SetInt ("badgesCount", badgeCount);
+		PlayerPrefs.SetInt ("upgradePoints", upgradePoints);
+		PlayerPrefs.Save();
 	}
 }
 

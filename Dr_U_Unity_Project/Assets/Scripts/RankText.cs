@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class RankText : MonoBehaviour {
 	
-	private static Text rankingText;
+	private Text rankingText;
 	
-	private static string[] ranks = {"Cadet", "Ensign", "Lieutenant Junior Grade", "Lieutenant",
+	private string[] ranks = {"Cadet", "Ensign", "Lieutenant Junior Grade", "Lieutenant",
 		"Lieutenant Commander", "Commander", "Captain", "Rear Admiral One Star", 
 		"Rear Admiral Two Star", "Vice Admiral", "Admiral", "Fleet Admiral"};
 	
@@ -17,7 +18,8 @@ public class RankText : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {		
+	void Update () {	
+		Console.WriteLine (PlayerPrefs.GetInt ("rank"));	
 		rankingText.text = "Rank: " + ranks [PlayerPrefs.GetInt("rank")];
 	}
 }
